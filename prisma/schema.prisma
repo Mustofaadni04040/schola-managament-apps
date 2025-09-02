@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -33,6 +32,7 @@ model Student {
   grade Grade @relation(fields: [gradeId], references: [id])
   attendances Attendance[]
   results Result[]
+  birthday DateTime
 }
 
 model Teacher {
@@ -50,6 +50,7 @@ model Teacher {
   subjects Subject[]
   lessons Lesson[]
   classes Class[]
+  birthday DateTime
 }
 
 model Parent {
@@ -77,8 +78,8 @@ model Class {
   name String @unique
   capacity Int
 
-  supervisorId String
-  supervisor Teacher @relation(fields: [supervisorId], references: [id])
+  supervisorId String?
+  supervisor Teacher? @relation(fields: [supervisorId], references: [id])
   lessons Lesson[]
   students Student[]
   gradeId Int
@@ -149,7 +150,7 @@ model Result {
 model Attendance {
   id Int @id @default(autoincrement())
   date DateTime
-  status Boolean
+  status Boolean?
   present Boolean
 
   studentId String
