@@ -25,8 +25,6 @@ const Pagination = ({ page, count }: { page: number; count: number }) => {
           { length: Math.ceil(count / ITEM_PER_PAGE) },
           (_, i: number) => {
             const pageIndex = i + 1;
-            console.log("page", pageIndex);
-            console.log(i);
             return (
               <button
                 className={`px-4 rounded-full ${
