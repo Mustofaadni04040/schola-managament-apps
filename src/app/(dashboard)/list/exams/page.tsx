@@ -2,7 +2,7 @@ import FormModal from "@/components/FormModal";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
-import { examsData, role } from "@/lib/data";
+import { role } from "@/lib/data";
 import prisma from "@/lib/prisma";
 import { ITEM_PER_PAGE } from "@/lib/settings";
 import { Class, Exam, Prisma, Subject, Teacher } from "@prisma/client";
@@ -38,14 +38,16 @@ const columns = [
 ];
 const renderRow = (item: ExamList) => (
   <tr
-    key={item.id}
+    key={item?.id}
     className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight"
   >
-    <td className="flex items-center gap-4 p-4">{item.lesson.subject.name}</td>
-    <td>{item.lesson.class.name}</td>
-    <td className="hidden md:table-cell">{item.lesson.teacher.name}</td>
+    <td className="flex items-center gap-4 p-4">
+      {item?.lesson?.subject?.name}
+    </td>
+    <td>{item?.lesson?.class?.name}</td>
+    <td className="hidden md:table-cell">{item?.lesson?.teacher?.name}</td>
     <td className="hidden md:table-cell">
-      {new Intl.DateTimeFormat("id-ID").format(new Date(item.startTime))}
+      {new Intl.DateTimeFormat("id-ID").format(new Date(item?.startTime))}
     </td>
     <td>
       <div className="flex items-center gap-2">
@@ -53,7 +55,7 @@ const renderRow = (item: ExamList) => (
           (role === "teacher" && (
             <>
               <FormModal table="exam" type="update" data={item} />
-              <FormModal table="exam" type="delete" id={item.id} />
+              <FormModal table="exam" type="delete" id={item?.id} />
             </>
           ))}
       </div>
