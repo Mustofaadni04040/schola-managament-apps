@@ -2,10 +2,23 @@
 
 import * as Clerk from "@clerk/elements/common";
 import * as SignIn from "@clerk/elements/sign-in";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
-import React from "react";
+import React, { useEffect } from "react";
 
 export default function LoginPage() {
+  const { isLoaded, user, isSignedIn } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    const role = user?.publicMetadata.role;
+
+    if (role && isSignedIn) {
+      router.push(`/${role}`);
+    }
+  }, [user, router, isSignedIn]);
+
   return (
     <div className="h-screen flex items-center justify-center">
       <SignIn.Root>

@@ -1,6 +1,6 @@
 "use client";
 
-import { role } from "@/lib/data";
+import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -122,6 +122,7 @@ const menuItems = [
 
 const Menu = () => {
   const pathname = usePathname();
+  const { user } = useUser();
 
   return (
     <div className="mt-4 text-sm">
@@ -131,7 +132,7 @@ const Menu = () => {
             {i.title}
           </span>
           {i.items.map((item) => {
-            if (item.visible.includes(role)) {
+            if (item.visible.includes(user?.publicMetadata.role as string)) {
               return (
                 <Link
                   href={item.href}
