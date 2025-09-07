@@ -131,7 +131,6 @@ const Menu = () => {
             {i.title}
           </span>
           {i.items.map((item) => {
-            console.log("/list" + item.href);
             if (item.visible.includes(role)) {
               return (
                 <Link
