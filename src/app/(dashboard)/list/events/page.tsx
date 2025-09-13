@@ -2,7 +2,7 @@ import FormModal from "@/components/FormModal";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
-import { role } from "@/lib/data";
+import { getRole } from "@/lib/getRole";
 import prisma from "@/lib/prisma";
 import { ITEM_PER_PAGE } from "@/lib/settings";
 import { Class, Event, Prisma } from "@prisma/client";
@@ -39,7 +39,7 @@ const columns = [
     accessor: "action",
   },
 ];
-const renderRow = (item: EventList) => (
+const renderRow = (item: EventList, role?: string) => (
   <tr
     key={item?.id}
     className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight"
@@ -84,6 +84,7 @@ const EventListPage = async ({
   const { page, ...queryParams } = searchParams;
   const p = page ? parseInt(page) : 1;
   const query: Prisma.EventWhereInput = {};
+  const { role } = await getRole();
 
   if (queryParams) {
     for (const [key, value] of Object.entries(queryParams)) {
@@ -126,7 +127,11 @@ const EventListPage = async ({
         </div>
       </div>
       {/* LIST */}
-      <Table columns={columns} renderRow={renderRow} data={data} />
+      <Table
+        columns={columns}
+        renderRow={(item) => renderRow(item, role)}
+        data={data}
+      />
       {/* PAGINATION */}
       <Pagination page={p} count={count} />
     </div>
