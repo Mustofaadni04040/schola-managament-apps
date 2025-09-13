@@ -1,7 +1,5 @@
 "use client";
 
-import { role } from "@/lib/data";
-import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -121,7 +119,7 @@ const menuItems = [
   },
 ];
 
-const Menu = () => {
+const Menu = ({ role }: { role: string }) => {
   const pathname = usePathname();
 
   return (
