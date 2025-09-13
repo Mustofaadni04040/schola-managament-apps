@@ -2,7 +2,7 @@ import FormModal from "@/components/FormModal";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
-import { role } from "@/lib/data";
+import { getRole } from "@/lib/getRole";
 import prisma from "@/lib/prisma";
 import { ITEM_PER_PAGE } from "@/lib/settings";
 import { Announcement, Class, Prisma } from "@prisma/client";
@@ -29,7 +29,7 @@ const columns = [
     accessor: "action",
   },
 ];
-const renderRow = (item: AnnouncementList) => (
+const renderRow = async (item: AnnouncementList) => (
   <tr
     key={item.id}
     className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight"
@@ -41,7 +41,7 @@ const renderRow = (item: AnnouncementList) => (
     </td>
     <td>
       <div className="flex items-center gap-2">
-        {role === "admin" && (
+        {(await getRole()) === "admin" && (
           <>
             <FormModal table="announcement" type="update" data={item} />
             <FormModal table="announcement" type="delete" id={item?.id} />
@@ -99,7 +99,7 @@ const AnnouncementListPage = async ({
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <Image src="/sort.png" alt="" width={14} height={14} />
             </button>
-            {role === "admin" && (
+            {(await getRole()) === "admin" && (
               <FormModal table="announcement" type="create" />
             )}
           </div>
