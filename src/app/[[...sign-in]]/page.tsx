@@ -57,7 +57,10 @@ export default function LoginPage() {
 
           <SignIn.Action
             submit
-            className="w-full rounded-md bg-zinc-950 px-3.5 py-1.5 text-center text-sm font-medium text-white shadow outline-none ring-1 ring-inset ring-zinc-950 hover:bg-zinc-800 focus-visible:outline-[1.5px] focus-visible:outline-offset-2 focus-visible:outline-zinc-950 active:text-white/70"
+            className={`w-full rounded-md bg-zinc-950 px-3.5 py-1.5 text-center text-sm font-medium text-white shadow outline-none ring-1 ring-inset ring-zinc-950 hover:bg-zinc-800 focus-visible:outline-[1.5px] focus-visible:outline-offset-2 focus-visible:outline-zinc-950 active:text-white/70 ${
+              isLoaded ? "cursor-pointer" : "cursor-not-allowed opacity-50"
+            }`}
+            disabled={!isLoaded}
           >
             Sign In
           </SignIn.Action>

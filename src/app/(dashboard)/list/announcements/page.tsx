@@ -29,7 +29,7 @@ const columns = [
     accessor: "action",
   },
 ];
-const renderRow = async (item: AnnouncementList) => (
+const renderRow = async (item: AnnouncementList, role?: string) => (
   <tr
     key={item.id}
     className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight"
@@ -41,7 +41,7 @@ const renderRow = async (item: AnnouncementList) => (
     </td>
     <td>
       <div className="flex items-center gap-2">
-        {(await getRole()) === "admin" && (
+        {role === "admin" && (
           <>
             <FormModal table="announcement" type="update" data={item} />
             <FormModal table="announcement" type="delete" id={item?.id} />
@@ -60,6 +60,7 @@ const AnnouncementListPage = async ({
   const { page, ...queryParams } = searchParams;
   const p = page ? parseInt(page) : 1;
   const query: Prisma.AnnouncementWhereInput = {};
+  const { role } = await getRole();
 
   if (queryParams) {
     for (const [key, value] of Object.entries(queryParams)) {
@@ -99,14 +100,18 @@ const AnnouncementListPage = async ({
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <Image src="/sort.png" alt="" width={14} height={14} />
             </button>
-            {(await getRole()) === "admin" && (
+            {role === "admin" && (
               <FormModal table="announcement" type="create" />
             )}
           </div>
         </div>
       </div>
       {/* LIST */}
-      <Table columns={columns} renderRow={renderRow} data={data} />
+      <Table
+        columns={columns}
+        renderRow={(item) => renderRow(item, role)}
+        data={data}
+      />
       {/* PAGINATION */}
       <Pagination page={p} count={count} />
     </div>
