@@ -14,7 +14,7 @@ export default function LoginPage() {
   useEffect(() => {
     const role = user?.publicMetadata.role;
 
-    if (role && isSignedIn) {
+    if (role) {
       router.push(`/${role}`);
     }
   }, [user, router, isSignedIn]);
