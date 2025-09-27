@@ -2,7 +2,6 @@ import FormModal from "@/components/FormModal";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
-import { role } from "@/lib/data";
 import { getRole } from "@/lib/getRole";
 import prisma from "@/lib/prisma";
 import { ITEM_PER_PAGE } from "@/lib/settings";
@@ -37,7 +36,7 @@ const columns = [
     accessor: "action",
   },
 ];
-const renderRow = (item: ExamList) => (
+const renderRow = (item: ExamList, role?: string) => (
   <tr
     key={item?.id}
     className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight"
@@ -45,7 +44,7 @@ const renderRow = (item: ExamList) => (
     <td className="flex items-center gap-4 p-4">
       {item?.lesson?.subject?.name}
     </td>
-    <td>{item?.lesson?.class?.name}</td>
+    <td>{item?.lesson?.class?.name ? item?.lesson?.class?.name : "-"}</td>
     <td className="hidden md:table-cell">{item?.lesson?.teacher?.name}</td>
     <td className="hidden md:table-cell">
       {new Intl.DateTimeFormat("id-ID").format(new Date(item?.startTime))}
@@ -149,7 +148,11 @@ const ExamListPage = async ({
         </div>
       </div>
       {/* LIST */}
-      <Table columns={columns} renderRow={renderRow} data={data} />
+      <Table
+        columns={columns}
+        renderRow={(item) => renderRow(item, role)}
+        data={data}
+      />
       {/* PAGINATION */}
       <Pagination page={p} count={count} />
     </div>
