@@ -60,7 +60,7 @@ const AnnouncementListPage = async ({
   const { page, ...queryParams } = searchParams;
   const p = page ? parseInt(page) : 1;
   const query: Prisma.AnnouncementWhereInput = {};
-  const { role } = await getRole();
+  const { role, currentUserId } = await getRole();
 
   if (queryParams) {
     for (const [key, value] of Object.entries(queryParams)) {
@@ -73,6 +73,20 @@ const AnnouncementListPage = async ({
       }
     }
   }
+
+  // fetch events based on user role
+  const roleConditions = {
+    teacher: { lessons: { some: { teacherId: currentUserId! } } },
+    student: { students: { some: { id: currentUserId! } } },
+    parent: { students: { some: { parentId: currentUserId! } } },
+  };
+
+  query.OR = [
+    { classId: null },
+    {
+      class: roleConditions[role as keyof typeof roleConditions] || {},
+    },
+  ];
 
   const [data, count] = await prisma.$transaction([
     prisma.announcement.findMany({
