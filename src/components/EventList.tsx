@@ -15,6 +15,7 @@ const EventList = async ({
       },
     },
   });
+
   return (
     <>
       {data.map((event) => (
