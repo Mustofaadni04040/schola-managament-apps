@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 // USE LAZY LOADING
 
 // import TeacherForm from "./forms/TeacherForm";
@@ -19,11 +19,21 @@ const SubjectForm = dynamic(() => import("./forms/SubjectForm"), {
 });
 
 const forms: {
-  [key: string]: (type: "create" | "update", data?: any) => JSX.Element;
+  [key: string]: (
+    type: "create" | "update",
+    setOpen: Dispatch<SetStateAction<boolean>>,
+    data?: any
+  ) => JSX.Element;
 } = {
-  subject: (type, data) => <SubjectForm type={type} data={data} />,
-  teacher: (type, data) => <TeacherForm type={type} data={data} />,
-  student: (type, data) => <StudentForm type={type} data={data} />,
+  subject: (type, setOpen, data) => (
+    <SubjectForm type={type} data={data} setOpen={setOpen} />
+  ),
+  teacher: (type, data, setOpen) => (
+    <TeacherForm type={type} data={data} setOpen={setOpen} />
+  ),
+  student: (type, data, setOpen) => (
+    <StudentForm type={type} data={data} setOpen={setOpen} />
+  ),
 };
 
 const FormModal = ({
@@ -70,7 +80,7 @@ const FormModal = ({
         </button>
       </form>
     ) : type === "create" || type === "update" ? (
-      forms[table](type, data)
+      forms[table](type, setOpen, data)
     ) : (
       "Form not found!"
     );

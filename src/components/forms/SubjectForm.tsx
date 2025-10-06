@@ -5,13 +5,19 @@ import { useForm } from "react-hook-form";
 import InputField from "../InputField";
 import { SubjectInput, subjectSchema } from "@/lib/formValidationSchemas";
 import { createSubject } from "@/lib/actions";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useFormState } from "react-dom";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const SubjectForm = ({
   type,
   data,
+  setOpen,
 }: {
   type: "create" | "update";
   data?: any;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
   const {
     register,
@@ -20,11 +26,29 @@ const SubjectForm = ({
   } = useForm<SubjectInput>({
     resolver: zodResolver(subjectSchema),
   });
-
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
-    createSubject(data);
+  //   after react 19 it'l be useactionstate
+  const [state, formAction] = useFormState(createSubject, {
+    success: false,
+    error: false,
+    loading: false,
   });
+  const router = useRouter();
+
+  const onSubmit = handleSubmit(async (data) => {
+    formAction(data);
+  });
+
+  useEffect(() => {
+    if (state.success) {
+      toast.success(
+        `Subject has been ${
+          type === "create" ? "created" : "updated"
+        } successfully`
+      );
+      setOpen(false);
+      router.refresh();
+    }
+  }, [state, type, , router, setOpen]);
 
   return (
     <form className="flex flex-col gap-8" onSubmit={onSubmit}>
@@ -42,6 +66,9 @@ const SubjectForm = ({
         />
       </div>
 
+      {state.error && (
+        <span className="text-red-500">Something went wrong</span>
+      )}
       <button className="bg-blue-400 text-white p-2 rounded-md">
         {type === "create" ? "Create" : "Update"}
       </button>
