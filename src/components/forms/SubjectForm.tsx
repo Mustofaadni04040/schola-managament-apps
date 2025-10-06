@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import InputField from "../InputField";
 import { SubjectInput, subjectSchema } from "@/lib/formValidationSchemas";
-import { createSubject } from "@/lib/actions";
+import { createSubject, updateSubject } from "@/lib/actions";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { toast } from "react-toastify";
@@ -27,14 +27,16 @@ const SubjectForm = ({
     resolver: zodResolver(subjectSchema),
   });
   //   after react 19 it'l be useactionstate
-  const [state, formAction] = useFormState(createSubject, {
-    success: false,
-    error: false,
-    loading: false,
-  });
+  const [state, formAction] = useFormState(
+    type === "create" ? createSubject : updateSubject,
+    {
+      success: false,
+      error: false,
+    }
+  );
   const router = useRouter();
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit((data) => {
     formAction(data);
   });
 
@@ -48,7 +50,7 @@ const SubjectForm = ({
       setOpen(false);
       router.refresh();
     }
-  }, [state, type, , router, setOpen]);
+  }, [state, type, router, setOpen]);
 
   return (
     <form className="flex flex-col gap-8" onSubmit={onSubmit}>
@@ -64,6 +66,17 @@ const SubjectForm = ({
           error={errors?.name}
           widthContainer="md:w-full"
         />
+        {data && (
+          <InputField
+            label="Id"
+            name="id"
+            defaultValue={data?.id}
+            register={register}
+            error={errors?.id}
+            widthContainer="md:w-full"
+            hidden
+          />
+        )}
       </div>
 
       {state.error && (
