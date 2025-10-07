@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteSubject } from "@/lib/actions";
+import { deleteClass, deleteSubject } from "@/lib/actions";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -11,7 +11,7 @@ import { FormContainerProps } from "./FormContainer";
 
 const deleteActionMap = {
   subject: deleteSubject,
-  class: deleteSubject,
+  class: deleteClass,
   teacher: deleteSubject,
   student: deleteSubject,
   parent: deleteSubject,
@@ -37,39 +37,50 @@ const StudentForm = dynamic(() => import("./forms/StudentForm"), {
 const SubjectForm = dynamic(() => import("./forms/SubjectForm"), {
   loading: () => <h1>Loading...</h1>,
 });
+const ClassForm = dynamic(() => import("./forms/ClassForm"), {
+  loading: () => <h1>Loading...</h1>,
+});
 
 const forms: {
   [key: string]: (
-    type: "create" | "update",
     setOpen: Dispatch<SetStateAction<boolean>>,
+    type: "create" | "update",
     data?: any,
     relatedData?: any
   ) => JSX.Element;
 } = {
-  subject: (type, setOpen, data, relatedData) => (
+  subject: (setOpen, type, data, relatedData) => (
     <SubjectForm
+      setOpen={setOpen}
       type={type}
       data={data}
-      setOpen={setOpen}
       relatedData={relatedData}
     />
   ),
-  teacher: (type, data, setOpen) => (
-    <TeacherForm
+  class: (setOpen, type, data, relatedData) => (
+    <ClassForm
+      setOpen={setOpen}
       type={type}
       data={data}
-      setOpen={setOpen}
       relatedData={relatedData}
     />
   ),
-  student: (type, data, setOpen) => (
-    <StudentForm
-      type={type}
-      data={data}
-      setOpen={setOpen}
-      relatedData={relatedData}
-    />
-  ),
+  // teacher: (type, data, setOpen) => (
+  //   <TeacherForm
+  //     type={type}
+  //     data={data}
+  //     setOpen={setOpen}
+  //     relatedData={relatedData}
+  //   />
+  // ),
+  // student: (type, data, setOpen) => (
+  //   <StudentForm
+  //     type={type}
+  //     data={data}
+  //     setOpen={setOpen}
+  //     relatedData={relatedData}
+  //   />
+  // ),
 };
 
 const FormModal = ({
@@ -78,7 +89,7 @@ const FormModal = ({
   data,
   id,
   relatedData,
-}: FormContainerProps) => {
+}: FormContainerProps & { relatedData?: any }) => {
   const size = type === "create" ? "w-8 h-8" : "w-7 h-7";
   const bgColor =
     type === "create"
@@ -115,7 +126,7 @@ const FormModal = ({
         </button>
       </form>
     ) : type === "create" || type === "update" ? (
-      forms[table](type, setOpen, data, relatedData)
+      forms[table](setOpen, type, data, relatedData)
     ) : (
       "Form not found!"
     );
