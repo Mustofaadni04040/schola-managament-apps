@@ -1,4 +1,4 @@
-import FormModal from "@/components/FormModal";
+import FormContainer from "@/components/FormContainer";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
@@ -87,7 +87,7 @@ const renderRow = (item: TeacherList, role?: string) => (
           // <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaPurple">
           //   <Image src="/delete.png" alt="" width={16} height={16} />
           // </button>
-          <FormModal table="teacher" type="delete" id={item?.id} />
+          <FormContainer table="teacher" type="delete" id={item?.id} />
         )}
       </div>
     </td>
@@ -151,13 +151,17 @@ const TeacherListPage = async ({
               // <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               //   <Image src="/plus.png" alt="" width={14} height={14} />
               // </button>
-              <FormModal table="teacher" type="create" />
+              <FormContainer table="teacher" type="create" />
             )}
           </div>
         </div>
       </div>
       {/* LIST */}
-      <Table columns={columns} renderRow={(item) => renderRow(item, role)} data={data} />
+      <Table
+        columns={columns}
+        renderRow={(item) => renderRow(item, role)}
+        data={data}
+      />
       {/* PAGINATION */}
       <Pagination page={p} count={count} />
     </div>
