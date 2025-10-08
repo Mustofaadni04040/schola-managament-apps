@@ -44,6 +44,7 @@ const ClassForm = ({
   const router = useRouter();
 
   const onSubmit = handleSubmit((data) => {
+    console.log("data", data);
     formAction(data);
   });
 
@@ -59,7 +60,7 @@ const ClassForm = ({
     }
   }, [state, type, router, setOpen]);
 
-  const { teachers, grades } = relatedData || {};
+  const { teachers, grades } = relatedData;
 
   return (
     <form className="flex flex-col gap-8" onSubmit={onSubmit}>
@@ -100,7 +101,7 @@ const ClassForm = ({
           <select
             className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
             {...register("supervisorId")}
-            defaultValue={data?.teachers}
+            defaultValue={data?.supervisorId}
           >
             {teachers?.map((teacher: { id: string; name: string }) => (
               <option key={teacher.id} value={teacher.id} className="p-2">
@@ -118,7 +119,7 @@ const ClassForm = ({
           <label className="text-xs text-gray-500">Grade</label>
           <select
             className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
-            {...register("supervisorId")}
+            {...register("gradeId")}
             defaultValue={data?.gradeId}
           >
             {grades?.map((grade: { id: number; level: number }) => (
@@ -135,7 +136,7 @@ const ClassForm = ({
         </div>
       </div>
 
-      {state.error && (
+      {state?.error && (
         <span className="text-red-500">Something went wrong</span>
       )}
       <button className="bg-blue-400 text-white p-2 rounded-md">
