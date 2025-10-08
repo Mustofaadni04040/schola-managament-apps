@@ -6,11 +6,11 @@ import InputField from "../InputField";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { TeacherInput, teacherSchema } from "@/lib/formValidationSchemas";
-import { useFormState } from "react-dom";
-import { createTeacher, updateTeacher } from "@/lib/actions";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { CldUploadWidget } from "next-cloudinary";
+import { createTeacher, updateTeacher } from "@/lib/actions";
+import { useFormState } from "react-dom";
 
 const TeacherForm = ({
   type,
@@ -44,11 +44,13 @@ const TeacherForm = ({
 
   const onSubmit = handleSubmit((data) => {
     console.log("data", data);
-    formAction(data);
+    formAction({ ...data, img: image });
   });
 
+  console.log("state", state);
+
   useEffect(() => {
-    if (state.success) {
+    if (state?.success) {
       toast.success(
         `Teacher has been ${
           type === "create" ? "created" : "updated"
@@ -60,7 +62,6 @@ const TeacherForm = ({
   }, [state, type, router, setOpen]);
 
   const { subjects } = relatedData;
-  console.log(image, "image");
 
   return (
     <form
@@ -153,8 +154,8 @@ const TeacherForm = ({
             {...register("sex")}
             defaultValue={data?.sex}
           >
-            <option value="male">Male</option>
-            <option value="female">Female</option>
+            <option value="MALE">Male</option>
+            <option value="FEMALE">Female</option>
           </select>
           {errors.sex?.message && (
             <p className="text-xs text-red-400">

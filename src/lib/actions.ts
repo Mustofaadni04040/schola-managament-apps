@@ -7,6 +7,7 @@ import {
   TeacherInput,
 } from "./formValidationSchemas";
 import prisma from "./prisma";
+import { clerkClient } from "@clerk/nextjs/server";
 
 type CurrentState = {
   success: boolean;
@@ -143,11 +144,37 @@ export const createTeacher = async (
   data: TeacherInput
 ) => {
   try {
-    await prisma.teacher.create({
-      data,
+    const clerk = await clerkClient();
+    const user = await clerk.users.createUser({
+      username: data.username,
+      password: data.password,
+      firstName: data.name,
+      lastName: data.surname,
+      publicMetadata: { role: "teacher" },
     });
 
-    // revalidatePath("/list/teacher");
+    await prisma.teacher.create({
+      data: {
+        id: user.id,
+        username: data.username,
+        name: data.name,
+        surname: data.surname,
+        email: data.email,
+        phone: data.phone,
+        address: data.address,
+        img: data.img,
+        bloodType: data.bloodType,
+        sex: data.sex,
+        birthday: data.birthday,
+        subjects: {
+          connect: data.subjects?.map((id: string) => ({
+            id: parseInt(id),
+          })),
+        },
+      },
+    });
+
+    // revalidatePath("/list/teachers");
     return { success: true, error: false };
   } catch (error) {
     console.log(error);
