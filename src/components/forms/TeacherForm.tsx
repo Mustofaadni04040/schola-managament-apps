@@ -4,12 +4,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import InputField from "../InputField";
 import Image from "next/image";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { TeacherInput, teacherSchema } from "@/lib/formValidationSchemas";
 import { useFormState } from "react-dom";
 import { createTeacher, updateTeacher } from "@/lib/actions";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { CldUploadWidget } from "next-cloudinary";
 
 const TeacherForm = ({
   type,
@@ -29,6 +30,7 @@ const TeacherForm = ({
   } = useForm<TeacherInput>({
     resolver: zodResolver(teacherSchema),
   });
+  const [image, setImage] = useState<any>(null);
 
   //   after react 19 it'l be useactionstate
   const [state, formAction] = useFormState(
@@ -58,6 +60,7 @@ const TeacherForm = ({
   }, [state, type, router, setOpen]);
 
   const { subjects } = relatedData;
+  console.log(image, "image");
 
   return (
     <form
@@ -179,21 +182,42 @@ const TeacherForm = ({
             </p>
           )}
         </div>
-        <div className="flex flex-col gap-2 w-full md:w-1/4 justify-center">
-          <label
-            className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer"
-            htmlFor="img"
-          >
-            <Image src="/upload.png" alt="" width={28} height={28} />
-            <span>Upload a photo</span>
-          </label>
-          <input type="file" id="img" {...register("img")} className="hidden" />
-          {errors.img?.message && (
-            <p className="text-xs text-red-400">
-              {errors.img.message.toString()}
-            </p>
-          )}
-        </div>
+        {image && (
+          <Image
+            src={image}
+            alt="teacher profile image"
+            width={100}
+            height={100}
+            className="w-auto h-auto"
+          />
+        )}
+        <CldUploadWidget
+          uploadPreset="school"
+          onSuccess={(result) => {
+            if (
+              typeof result.info === "object" &&
+              result.info !== null &&
+              "secure_url" in result.info
+            ) {
+              setImage((result.info as { secure_url: string }).secure_url);
+            }
+          }}
+          options={{
+            maxFiles: 1,
+          }}
+        >
+          {({ open }) => {
+            return (
+              <div
+                className="min-w-[150px] text-xs text-gray-500 flex items-center justify-center gap-2 cursor-pointer"
+                onClick={() => open?.()}
+              >
+                <Image src="/upload.png" alt="" width={28} height={28} />
+                <span>Upload a photo</span>
+              </div>
+            );
+          }}
+        </CldUploadWidget>
       </div>
       <button className="bg-blue-400 text-white p-2 rounded-md">
         {type === "create" ? "Create" : "Update"}
