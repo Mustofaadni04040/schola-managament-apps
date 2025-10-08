@@ -58,11 +58,14 @@ const SubjectForm = ({
   const { teachers } = relatedData;
 
   return (
-    <form className="flex flex-col gap-8" onSubmit={onSubmit}>
+    <form
+      className="flex flex-col gap-8 overflow-y-scroll max-h-[90vh] pr-2 no-scrollbar"
+      onSubmit={onSubmit}
+    >
       <h1 className="text-xl font-semibold">
         {type === "create" ? "Create a new subject" : "Update subject"}
       </h1>
-      <div className="flex justify-between flex-wrap gap-4">
+      <div className="flex justify-between flex-wrap gap-4 mx-3">
         <InputField
           label="Subject Name"
           name="name"

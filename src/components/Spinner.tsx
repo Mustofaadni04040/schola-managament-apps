@@ -3,13 +3,15 @@ import React from "react";
 
 const Spinner = () => {
   return (
-    <Image
-      src="/spinner.png"
-      width={50}
-      height={50}
-      alt="Spinner"
-      className="animate-spin"
-    />
+    <div className="w-full h-full flex items-center justify-center ">
+      <Image
+        src="/spinner.png"
+        width={50}
+        height={50}
+        alt="Spinner"
+        className="animate-spin"
+      />
+    </div>
   );
 };
 

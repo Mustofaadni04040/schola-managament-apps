@@ -50,12 +50,15 @@ const StudentForm = ({
   });
 
   return (
-    <form className="flex flex-col gap-8" onSubmit={onSubmit}>
+    <form
+      className="flex flex-col gap-8 overflow-y-scroll max-h-[90vh] pr-2 no-scrollbar"
+      onSubmit={onSubmit}
+    >
       <h1 className="text-xl font-semibold">Create a new student</h1>
       <span className="text-xs text-gray-400 font-medium">
         Authentication Information
       </span>
-      <div className="flex justify-between flex-wrap gap-4">
+      <div className="flex justify-between flex-wrap gap-4 mx-3">
         <InputField
           label="Username"
           name="username"
@@ -82,7 +85,7 @@ const StudentForm = ({
       <span className="text-xs text-gray-400 font-medium">
         Personal Information
       </span>
-      <div className="flex justify-between flex-wrap gap-4">
+      <div className="flex justify-between flex-wrap gap-4 mx-3">
         <InputField
           label="First Name"
           name="firstName"
