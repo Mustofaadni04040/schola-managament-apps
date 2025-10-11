@@ -97,7 +97,19 @@ const TeacherForm = ({
           defaultValue={data?.password}
           register={register}
           error={errors?.password}
+          disabled={type === "update"}
         />
+        {data && (
+          <InputField
+            label="Id"
+            name="id"
+            defaultValue={data?.id}
+            register={register}
+            error={errors?.id}
+            widthContainer="md:w-full"
+            hidden
+          />
+        )}
       </div>
       <span className="text-xs text-gray-400 font-medium">
         Personal Information
@@ -141,7 +153,7 @@ const TeacherForm = ({
         <InputField
           label="Birthday"
           name="birthday"
-          defaultValue={data?.birthday}
+          defaultValue={data?.birthday.toISOString().split("T")[0]}
           register={register}
           error={errors.birthday}
           type="date"
