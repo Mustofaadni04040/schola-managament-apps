@@ -103,13 +103,21 @@ const SubjectListPage = async ({
         </div>
       </div>
       {/* LIST */}
-      <Table
-        columns={columns}
-        renderRow={(item) => renderRow(item, role)}
-        data={data}
-      />
-      {/* PAGINATION */}
-      <Pagination page={p} count={count} />
+      {data.length === 0 ? (
+        <p className="text-center text-gray-400 text-sm mt-10">
+          Data not found
+        </p>
+      ) : (
+        <>
+          <Table
+            columns={columns}
+            renderRow={(item) => renderRow(item, role)}
+            data={data}
+          />
+          {/* PAGINATION */}
+          <Pagination page={p} count={count} />
+        </>
+      )}
     </div>
   );
 };
