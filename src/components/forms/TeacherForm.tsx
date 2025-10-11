@@ -37,17 +37,16 @@ const TeacherForm = ({
     type === "create" ? createTeacher : updateTeacher,
     {
       success: false,
-      error: false,
+      error: false && "",
     }
   );
   const router = useRouter();
+  console.log(state, "state");
 
   const onSubmit = handleSubmit((data) => {
     console.log("data", data);
     formAction({ ...data, img: image });
   });
-
-  console.log("state", state);
 
   useEffect(() => {
     if (state?.success) {
@@ -220,6 +219,7 @@ const TeacherForm = ({
           }}
         </CldUploadWidget>
       </div>
+      {state?.error && <p className="text-xs text-red-400">{state.error}</p>}
       <button className="bg-blue-400 text-white p-2 rounded-md">
         {type === "create" ? "Create" : "Update"}
       </button>

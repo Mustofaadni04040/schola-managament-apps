@@ -176,9 +176,9 @@ export const createTeacher = async (
 
     // revalidatePath("/list/teachers");
     return { success: true, error: false };
-  } catch (error) {
-    console.log(error);
-    return { success: false, error: true };
+  } catch (error: string | any) {
+    console.log("error", error);
+    return { success: false, error: true && error?.errors[0]?.message };
   }
 };
 
@@ -193,7 +193,7 @@ export const updateTeacher = async (
         name: data.name,
         capacity: data.capacity,
         gradeId: data.gradeId,
-        supervisorId: data.supervisorId || null,
+        supervisorId: data.supervisorId,
       },
     });
 
