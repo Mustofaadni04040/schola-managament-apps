@@ -1,6 +1,5 @@
 import Announcements from "@/components/Announcements";
 import BigCalendarContainer from "@/components/BigCalendarContainer";
-import BigCalendar from "@/components/BigCalender";
 import FormContainer from "@/components/FormContainer";
 import Performance from "@/components/Performance";
 import { getRole } from "@/lib/getRole";
@@ -167,31 +166,31 @@ const SingleTeacherPage = async ({
           <div className="mt-4 flex gap-4 flex-wrap text-xs text-gray-500">
             <Link
               className="p-3 rounded-md bg-lamaSkyLight"
-              href={`/list/classes?supervisorId=${"teacher10"}`}
+              href={`/list/classes?supervisorId=${id}`}
             >
               Teacher&apos;s Classes
             </Link>
             <Link
               className="p-3 rounded-md bg-lamaPurpleLight"
-              href={`/list/students?teacherId=${"teacher2"}`}
+              href={`/list/students?teacherId=${id}`}
             >
               Teacher&apos;s Students
             </Link>
             <Link
               className="p-3 rounded-md bg-lamaYellowLight"
-              href={`/list/lessons?teacherId=${"teacher10"}`}
+              href={`/list/lessons?teacherId=${id}`}
             >
               Teacher&apos;s Lessons
             </Link>
             <Link
               className="p-3 rounded-md bg-pink-50"
-              href={`/list/exams?teacherId=${"teacher10"}`}
+              href={`/list/exams?teacherId=${id}`}
             >
               Teacher&apos;s Exams
             </Link>
             <Link
               className="p-3 rounded-md bg-lamaSkyLight"
-              href={`/list/assignments?teacherId=${"teacher10"}`}
+              href={`/list/assignments?teacherId=${id}`}
             >
               Teacher&apos;s Assignments
             </Link>

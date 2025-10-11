@@ -186,14 +186,38 @@ export const updateTeacher = async (
   currentState: CurrentState,
   data: TeacherInput
 ) => {
+  if (!data.id) {
+    return { success: false, error: true };
+  }
+
   try {
+    const clerk = await clerkClient();
+    const user = await clerk.users.updateUser(data.id, {
+      username: data.username,
+      password: data.password,
+      firstName: data.name,
+      lastName: data.surname,
+      publicMetadata: { role: "teacher" },
+    });
+
     await prisma.teacher.update({
       where: { id: data.id },
       data: {
+        username: data.username,
         name: data.name,
-        capacity: data.capacity,
-        gradeId: data.gradeId,
-        supervisorId: data.supervisorId,
+        surname: data.surname,
+        email: data.email,
+        phone: data.phone,
+        address: data.address,
+        img: data.img,
+        bloodType: data.bloodType,
+        sex: data.sex,
+        birthday: data.birthday,
+        subjects: {
+          set: data.subjects?.map((id: string) => ({
+            id: parseInt(id),
+          })),
+        },
       },
     });
 
