@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import {
   ClassInput,
+  ExamInput,
   StudentInput,
   SubjectInput,
   TeacherInput,
@@ -370,6 +371,71 @@ export const deleteStudent = async (
     });
 
     // revalidatePath("/list/students");
+    return { success: true, error: false };
+  } catch (error) {
+    console.log(error);
+    return { success: false, error: true };
+  }
+};
+
+export const createExam = async (
+  currentState: CurrentState,
+  data: ExamInput
+) => {
+  try {
+    await prisma.subject.create({
+      data: {
+        name: data.name,
+        teachers: {
+          connect: data.teachers.map((id) => ({ id: id })),
+        },
+      },
+    });
+
+    // revalidatePath("/list/subjects");
+    return { success: true, error: false };
+  } catch (error) {
+    console.log(error);
+    return { success: false, error: true };
+  }
+};
+
+export const updateExam = async (
+  currentState: CurrentState,
+  data: ExamInput
+) => {
+  try {
+    await prisma.subject.update({
+      where: { id: data.id },
+      data: {
+        name: data.name,
+        teachers: {
+          set: data.teachers.map((id) => ({ id: id })),
+        },
+      },
+    });
+
+    // revalidatePath("/list/subjects");
+    return { success: true, error: false };
+  } catch (error) {
+    console.log(error);
+    return { success: false, error: true };
+  }
+};
+
+export const deleteExam = async (
+  currentState: CurrentState,
+  data: FormData
+) => {
+  const id = data.get("id") as string;
+  try {
+    await prisma.subject.delete({
+      where: {
+        id: parseInt(id),
+      },
+    });
+
+    // revalidatePath("/list/subjects");
     return { success: true, error: false };
   } catch (error) {
     console.log(error);

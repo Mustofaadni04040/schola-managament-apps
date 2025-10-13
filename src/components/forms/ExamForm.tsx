@@ -3,8 +3,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import InputField from "../InputField";
-import { SubjectInput, subjectSchema } from "@/lib/formValidationSchemas";
-import { createSubject, updateSubject } from "@/lib/actions";
+import { ExamInput, examSchema } from "@/lib/formValidationSchemas";
+import {
+  createExam,
+  createSubject,
+  updateExam,
+  updateSubject,
+} from "@/lib/actions";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { useFormState } from "react-dom";
 import { toast } from "react-toastify";
@@ -25,12 +30,12 @@ const ExamForm = ({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SubjectInput>({
-    resolver: zodResolver(subjectSchema),
+  } = useForm<ExamInput>({
+    resolver: zodResolver(examSchema),
   });
   //   after react 19 it'l be useactionstate
   const [state, formAction] = useFormState(
-    type === "create" ? createSubject : updateSubject,
+    type === "create" ? createExam : updateExam,
     {
       success: false,
       error: false,
@@ -46,7 +51,7 @@ const ExamForm = ({
   useEffect(() => {
     if (state.success) {
       toast.success(
-        `Subject has been ${
+        `Exam has been ${
           type === "create" ? "created" : "updated"
         } successfully`
       );
@@ -55,7 +60,7 @@ const ExamForm = ({
     }
   }, [state, type, router, setOpen]);
 
-  const { teachers } = relatedData;
+  const { lessons } = relatedData;
 
   return (
     <form
@@ -63,16 +68,34 @@ const ExamForm = ({
       onSubmit={onSubmit}
     >
       <h1 className="text-xl font-semibold">
-        {type === "create" ? "Create a new subject" : "Update subject"}
+        {type === "create" ? "Create a new exam" : "Update exam"}
       </h1>
       <div className="flex justify-between flex-wrap gap-4 mx-3">
         <InputField
-          label="Subject Name"
-          name="name"
-          defaultValue={data?.name}
+          label="Exam Title"
+          name="title"
+          defaultValue={data?.title}
           register={register}
-          error={errors?.name}
+          error={errors?.title}
           widthContainer="md:w-full"
+        />
+        <InputField
+          label="Start Date"
+          name="startTime"
+          defaultValue={data?.startTime}
+          register={register}
+          error={errors?.startTime}
+          widthContainer="md:w-full"
+          type="datetime-local"
+        />
+        <InputField
+          label="End Date"
+          name="endTime"
+          defaultValue={data?.endTime}
+          register={register}
+          error={errors?.endTime}
+          widthContainer="md:w-full"
+          type="datetime-local"
         />
         {data && (
           <InputField
@@ -87,22 +110,21 @@ const ExamForm = ({
         )}
 
         <div className="flex flex-col gap-2 w-full">
-          <label className="text-xs text-gray-500">Teachers</label>
+          <label className="text-xs text-gray-500">Lesson</label>
           <select
-            multiple
             className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
-            {...register("teachers")}
-            defaultValue={data?.teachers}
+            {...register("lessonId")}
+            defaultValue={data?.lessonId}
           >
-            {teachers?.map((teacher: { id: string; name: string }) => (
-              <option value={teacher.id} key={teacher.id} className="p-2">
-                {teacher.name}
+            {lessons?.map((lesson: { id: string; title: string }) => (
+              <option value={lesson.id} key={lesson.id} className="p-2">
+                {lesson.title}
               </option>
             ))}
           </select>
-          {errors.teachers?.message && (
+          {errors.lessonId?.message && (
             <p className="text-xs text-red-400">
-              {errors.teachers.message.toString()}
+              {errors.lessonId.message.toString()}
             </p>
           )}
         </div>

@@ -2,6 +2,7 @@
 
 import {
   deleteClass,
+  deleteExam,
   deleteStudent,
   deleteSubject,
   deleteTeacher,
@@ -22,7 +23,7 @@ const deleteActionMap = {
   student: deleteStudent,
   parent: deleteSubject,
   lesson: deleteSubject,
-  exam: deleteSubject,
+  exam: deleteExam,
   assignment: deleteSubject,
   result: deleteSubject,
   attendance: deleteSubject,
