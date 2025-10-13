@@ -10,6 +10,7 @@ import {
 } from "./formValidationSchemas";
 import prisma from "./prisma";
 import { clerkClient } from "@clerk/nextjs/server";
+import { getRole } from "./getRole";
 
 type CurrentState = {
   success: boolean;
@@ -382,13 +383,28 @@ export const createExam = async (
   currentState: CurrentState,
   data: ExamInput
 ) => {
+  const { role, currentUserId } = await getRole();
+
   try {
-    await prisma.subject.create({
-      data: {
-        name: data.name,
-        teachers: {
-          connect: data.teachers.map((id) => ({ id: id })),
+    if (role === "teacher") {
+      const teacherLesson = await prisma.lesson.findFirst({
+        where: {
+          teacherId: currentUserId!,
+          id: data.lessonId,
         },
+      });
+
+      if (!teacherLesson) {
+        return { success: false, error: true };
+      }
+    }
+
+    await prisma.exam.create({
+      data: {
+        title: data.title,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        lessonId: data.lessonId,
       },
     });
 
@@ -404,14 +420,29 @@ export const updateExam = async (
   currentState: CurrentState,
   data: ExamInput
 ) => {
+  const { role, currentUserId } = await getRole();
+
   try {
-    await prisma.subject.update({
+    if (role === "teacher") {
+      const teacherLesson = await prisma.lesson.findFirst({
+        where: {
+          teacherId: currentUserId!,
+          id: data.lessonId,
+        },
+      });
+
+      if (!teacherLesson) {
+        return { success: false, error: true };
+      }
+    }
+
+    await prisma.exam.update({
       where: { id: data.id },
       data: {
-        name: data.name,
-        teachers: {
-          set: data.teachers.map((id) => ({ id: id })),
-        },
+        title: data.title,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        lessonId: data.lessonId,
       },
     });
 
@@ -428,10 +459,15 @@ export const deleteExam = async (
   data: FormData
 ) => {
   const id = data.get("id") as string;
+  const { role, currentUserId } = await getRole();
+
   try {
-    await prisma.subject.delete({
+    await prisma.exam.delete({
       where: {
         id: parseInt(id),
+        ...(role === "teacher"
+          ? { lesson: { teacherId: currentUserId! } } // protect from deleting other teacher's lesson
+          : {}),
       },
     });
 
