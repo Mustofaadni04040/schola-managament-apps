@@ -41,7 +41,6 @@ const TeacherForm = ({
     }
   );
   const router = useRouter();
-  console.log(state, "state");
 
   const onSubmit = handleSubmit((data) => {
     console.log("data", data);
@@ -114,6 +113,42 @@ const TeacherForm = ({
       <span className="text-xs text-gray-400 font-medium">
         Personal Information
       </span>
+      {image && (
+        <Image
+          src={image}
+          alt="teacher profile image"
+          width={100}
+          height={100}
+          className="w-auto h-auto"
+        />
+      )}
+      <CldUploadWidget
+        uploadPreset="school"
+        onSuccess={(result) => {
+          if (
+            typeof result.info === "object" &&
+            result.info !== null &&
+            "secure_url" in result.info
+          ) {
+            setImage((result.info as { secure_url: string }).secure_url);
+          }
+        }}
+        options={{
+          maxFiles: 1,
+        }}
+      >
+        {({ open }) => {
+          return (
+            <div
+              className="min-w-[150px] text-xs text-gray-500 flex items-center justify-center gap-2 cursor-pointer border border-gray-300 rounded-lg py-2 px-4 bg-gray-100 hover:bg-gray-200 duration-200"
+              onClick={() => open?.()}
+            >
+              <Image src="/upload.png" alt="" width={28} height={28} />
+              <span>Upload a photo</span>
+            </div>
+          );
+        }}
+      </CldUploadWidget>
       <div className="flex justify-between flex-wrap gap-4 mx-3">
         <InputField
           label="First Name"
@@ -194,42 +229,6 @@ const TeacherForm = ({
             </p>
           )}
         </div>
-        {image && (
-          <Image
-            src={image}
-            alt="teacher profile image"
-            width={100}
-            height={100}
-            className="w-auto h-auto"
-          />
-        )}
-        <CldUploadWidget
-          uploadPreset="school"
-          onSuccess={(result) => {
-            if (
-              typeof result.info === "object" &&
-              result.info !== null &&
-              "secure_url" in result.info
-            ) {
-              setImage((result.info as { secure_url: string }).secure_url);
-            }
-          }}
-          options={{
-            maxFiles: 1,
-          }}
-        >
-          {({ open }) => {
-            return (
-              <div
-                className="min-w-[150px] text-xs text-gray-500 flex items-center justify-center gap-2 cursor-pointer"
-                onClick={() => open?.()}
-              >
-                <Image src="/upload.png" alt="" width={28} height={28} />
-                <span>Upload a photo</span>
-              </div>
-            );
-          }}
-        </CldUploadWidget>
       </div>
       {state?.error && <p className="text-xs text-red-400">{state.error}</p>}
       <button className="bg-blue-400 text-white p-2 rounded-md">

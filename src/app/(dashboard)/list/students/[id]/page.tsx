@@ -1,8 +1,10 @@
 import Announcements from "@/components/Announcements";
 import BigCalendarContainer from "@/components/BigCalendarContainer";
+import FormContainer from "@/components/FormContainer";
 import Performance from "@/components/Performance";
 import Spinner from "@/components/Spinner";
 import StudentAttendanceChart from "@/components/StudentAttendanceChart";
+import { getRole } from "@/lib/getRole";
 import prisma from "@/lib/prisma";
 import { Class, Student } from "@prisma/client";
 import Image from "next/image";
@@ -23,6 +25,7 @@ const SingleStudentPage = async ({
       class: { include: { _count: { select: { lessons: true } } } },
     },
   });
+  const { role } = await getRole();
 
   if (!student) {
     return notFound();
@@ -41,11 +44,18 @@ const SingleStudentPage = async ({
                 alt="student profile image"
                 width={144}
                 height={144}
-                className="w-36 h-36 rounded-full object-cover"
+                className="w-36 h-auto rounded-full object-cover"
               />
             </div>
             <div className="w-2/3 flex flex-col justify-between gap-4">
-              <h1 className="text-xl font-semibold">{student?.name}</h1>
+              <div className="flex items-center justify-between gap-4">
+                <h1 className="text-xl font-semibold">
+                  {student?.name} {student?.surname}
+                </h1>
+                {role === "admin" && (
+                  <FormContainer table="student" type="update" data={student} />
+                )}
+              </div>
               <div className="flex items-center justify-between gap-2 flex-wrap text-xs font-medium">
                 <div className="w-full md:w-1/3 lg:w-full flex items-center gap-2">
                   <Image src="/blood.png" alt="" width={14} height={14} />
