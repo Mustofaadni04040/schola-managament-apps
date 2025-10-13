@@ -80,39 +80,10 @@ const menuItems = [
         href: "/list/events",
         visible: ["admin", "teacher", "student", "parent"],
       },
-      // {
-      //   icon: "/message.png",
-      //   label: "Messages",
-      //   href: "/list/messages",
-      //   visible: ["admin", "teacher", "student", "parent"],
-      // },
       {
         icon: "/announcement.png",
         label: "Announcements",
         href: "/list/announcements",
-        visible: ["admin", "teacher", "student", "parent"],
-      },
-    ],
-  },
-  {
-    title: "OTHER",
-    items: [
-      {
-        icon: "/profile.png",
-        label: "Profile",
-        href: "/profile",
-        visible: ["admin", "teacher", "student", "parent"],
-      },
-      {
-        icon: "/setting.png",
-        label: "Settings",
-        href: "/settings",
-        visible: ["admin", "teacher", "student", "parent"],
-      },
-      {
-        icon: "/logout.png",
-        label: "Logout",
-        href: "/logout",
         visible: ["admin", "teacher", "student", "parent"],
       },
     ],
@@ -135,8 +106,8 @@ const Menu = ({ role }: { role: string }) => {
                 <Link
                   href={item.href}
                   key={item.label}
-                  className={`flex items-center justify-center lg:justify-start gap-4 text-gray-500 py-2 md:px-2 rounded-md hover:bg-lamaSkyLight ${
-                    pathname === item.href ? "bg-lamaSkyLight" : ""
+                  className={`flex items-center justify-center lg:justify-start gap-4 text-gray-500 py-2 md:px-2 rounded-md hover:bg-[#ffdf98] ${
+                    pathname === item.href ? "bg-[#ffdf98]" : ""
                   }`}
                 >
                   <Image src={item.icon} alt="" width={20} height={20} />

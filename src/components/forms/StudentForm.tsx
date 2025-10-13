@@ -264,7 +264,7 @@ const StudentForm = ({
         </div>
       </div>
       {state?.error && <p className="text-xs text-red-400">{state.error}</p>}
-      <button className="bg-blue-400 text-white p-2 rounded-md">
+      <button className="bg-[#FEBA17] text-white p-2 rounded-md">
         {type === "create" ? "Create" : "Update"}
       </button>
     </form>
