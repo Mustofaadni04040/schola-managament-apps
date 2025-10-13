@@ -17,12 +17,14 @@ export default async function DashboardLayout({
     <div className="h-screen flex">
       {/* LEFT */}
       <div className="w-[14%] md:w-[8%] lg:w-[16%] xl:w-[14%] p-4 overflow-scroll no-scrollbar">
-        <Link
-          href="/"
-          className="flex items-center justify-center lg:justify-start gap-2"
-        >
-          <Image src="/logo.png" alt="logo" width={32} height={32} />
-          <span className="hidden lg:block font-bold">Schola</span>
+        <Link href="/" className="w-4 h-4">
+          <Image
+            src="/schola_logo.svg"
+            alt="logo"
+            width={32}
+            height={32}
+            className="w-auto h-auto object-cover"
+          />
         </Link>
         <Menu role={role} />
       </div>
