@@ -46,6 +46,9 @@ const SubjectForm = dynamic(() => import("./forms/SubjectForm"), {
 const ClassForm = dynamic(() => import("./forms/ClassForm"), {
   loading: () => <Spinner />,
 });
+const ExamForm = dynamic(() => import("./forms/ExamForm"), {
+  loading: () => <Spinner />,
+});
 
 const forms: {
   [key: string]: (
@@ -81,6 +84,14 @@ const forms: {
   ),
   student: (setOpen, type, data, relatedData) => (
     <StudentForm
+      setOpen={setOpen}
+      type={type}
+      data={data}
+      relatedData={relatedData}
+    />
+  ),
+  exam: (setOpen, type, data, relatedData) => (
+    <ExamForm
       setOpen={setOpen}
       type={type}
       data={data}
