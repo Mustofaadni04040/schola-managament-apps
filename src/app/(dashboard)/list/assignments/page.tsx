@@ -53,7 +53,7 @@ const renderRow = async (item: AssignmentList, role?: string) => (
       {item?.lesson?.subject?.name}
     </td>
     <td>{item?.title}</td>
-    <td>{item?.lesson?.class.name}</td>
+    <td>{item?.lesson?.class?.name ? item?.lesson?.class?.name : "-"}</td>
     <td className="hidden md:table-cell">{item?.lesson?.teacher?.name}</td>
     <td className="hidden md:table-cell">
       {new Intl.DateTimeFormat("id-ID").format(new Date(item?.endDate))}
