@@ -660,3 +660,28 @@ export const updateAssignment = async (
     return { success: false, error: true };
   }
 };
+
+export const deleteAssignment = async (
+  currentState: CurrentState,
+  data: FormData
+) => {
+  const id = data.get("id") as string;
+  const { role, currentUserId } = await getRole();
+
+  try {
+    await prisma.assignment.delete({
+      where: {
+        id: parseInt(id),
+        ...(role === "teacher"
+          ? { lesson: { teacherId: currentUserId! } } // protect from deleting other teacher's lesson
+          : {}),
+      },
+    });
+
+    // revalidatePath("/list/subjects");
+    return { success: true, error: false };
+  } catch (error) {
+    console.log(error);
+    return { success: false, error: true };
+  }
+};
