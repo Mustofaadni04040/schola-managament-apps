@@ -22,6 +22,10 @@ const columns = [
     accessor: "name",
   },
   {
+    header: "Assignment Title",
+    accessor: "title",
+  },
+  {
     header: "Class",
     accessor: "class",
   },
@@ -48,6 +52,7 @@ const renderRow = async (item: AssignmentList, role?: string) => (
     <td className="flex items-center gap-4 p-4">
       {item?.lesson?.subject?.name}
     </td>
+    <td>{item?.title}</td>
     <td>{item?.lesson?.class.name}</td>
     <td className="hidden md:table-cell">{item?.lesson?.teacher?.name}</td>
     <td className="hidden md:table-cell">
