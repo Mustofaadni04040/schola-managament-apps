@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import {
   ClassInput,
   ExamInput,
+  ParentInput,
   StudentInput,
   SubjectInput,
   TeacherInput,
@@ -476,5 +477,44 @@ export const deleteExam = async (
   } catch (error) {
     console.log(error);
     return { success: false, error: true };
+  }
+};
+
+export const createParent = async (
+  currentState: CurrentState,
+  data: ParentInput
+) => {
+  try {
+    const clerk = await clerkClient();
+    const user = await clerk.users.createUser({
+      username: data.username,
+      password: data.password,
+      firstName: data.name,
+      lastName: data.surname,
+      publicMetadata: { role: "parent" },
+    });
+
+    await prisma.parent.create({
+      data: {
+        id: user.id,
+        username: data.username,
+        name: data.name,
+        surname: data.surname,
+        email: data.email,
+        phone: data.phone,
+        address: data.address,
+        students: {
+          connect: data.students.map((id: string) => ({
+            id: id,
+          })),
+        },
+      },
+    });
+
+    // revalidatePath("/list/parent");
+    return { success: true, error: false };
+  } catch (error: string | any) {
+    console.log("error", error);
+    return { success: false, error: true && error?.errors[0]?.message };
   }
 };

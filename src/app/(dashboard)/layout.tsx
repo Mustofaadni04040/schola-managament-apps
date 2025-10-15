@@ -24,6 +24,7 @@ export default async function DashboardLayout({
             width={32}
             height={32}
             className="w-auto h-auto object-cover"
+            priority
           />
         </Link>
         <Menu role={role} />
