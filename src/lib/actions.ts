@@ -561,3 +561,26 @@ export const updateParent = async (
     return { success: false, error: true };
   }
 };
+
+export const deleteParent = async (
+  currentState: CurrentState,
+  data: FormData
+) => {
+  const id = data.get("id") as string;
+  const clerk = await clerkClient();
+  await clerk.users.deleteUser(id);
+
+  try {
+    await prisma.parent.delete({
+      where: {
+        id: id,
+      },
+    });
+
+    // revalidatePath("/list/parent");
+    return { success: true, error: false };
+  } catch (error) {
+    console.log(error);
+    return { success: false, error: true };
+  }
+};
