@@ -3,14 +3,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import InputField from "../InputField";
-import { ExamInput, examSchema } from "@/lib/formValidationSchemas";
-import { createExam, updateExam } from "@/lib/actions";
+import { AssignmentInput, assignmentSchema } from "@/lib/formValidationSchemas";
+import { createAssignment, updateAssignment } from "@/lib/actions";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { useFormState } from "react-dom";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
-const ExamForm = ({
+const AssignmentForm = ({
   type,
   data,
   setOpen,
@@ -25,12 +25,12 @@ const ExamForm = ({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ExamInput>({
-    resolver: zodResolver(examSchema),
+  } = useForm<AssignmentInput>({
+    resolver: zodResolver(assignmentSchema),
   });
   //   after react 19 it'l be useactionstate
   const [state, formAction] = useFormState(
-    type === "create" ? createExam : updateExam,
+    type === "create" ? createAssignment : updateAssignment,
     {
       success: false,
       error: false,
@@ -46,7 +46,7 @@ const ExamForm = ({
   useEffect(() => {
     if (state.success) {
       toast.success(
-        `Exam has been ${
+        `Assignment has been ${
           type === "create" ? "created" : "updated"
         } successfully`
       );
@@ -63,11 +63,11 @@ const ExamForm = ({
       onSubmit={onSubmit}
     >
       <h1 className="text-xl font-semibold">
-        {type === "create" ? "Create a new exam" : "Update exam"}
+        {type === "create" ? "Create a new assignment" : "Update assignment"}
       </h1>
       <div className="flex justify-between flex-wrap gap-4 mx-3">
         <InputField
-          label="Exam Title"
+          label="Assignment Title"
           name="title"
           defaultValue={data?.title}
           register={register}
@@ -76,19 +76,19 @@ const ExamForm = ({
         />
         <InputField
           label="Start Date"
-          name="startTime"
-          defaultValue={data?.startTime?.toISOString().slice(0, 16)}
+          name="startDate"
+          defaultValue={data?.startDate?.toISOString().slice(0, 16)}
           register={register}
-          error={errors?.startTime}
+          error={errors?.startDate}
           widthContainer="md:w-full"
           type="datetime-local"
         />
         <InputField
           label="End Date"
-          name="endTime"
-          defaultValue={data?.endTime?.toISOString().slice(0, 16)}
+          name="endDate"
+          defaultValue={data?.endDate?.toISOString().slice(0, 16)}
           register={register}
-          error={errors?.endTime}
+          error={errors?.endDate}
           widthContainer="md:w-full"
           type="datetime-local"
         />
@@ -135,4 +135,4 @@ const ExamForm = ({
   );
 };
 
-export default ExamForm;
+export default AssignmentForm;

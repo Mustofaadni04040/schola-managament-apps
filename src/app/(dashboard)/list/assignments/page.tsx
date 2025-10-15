@@ -1,4 +1,4 @@
-import FormModal from "@/components/FormModal";
+import FormContainer from "@/components/FormContainer";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
@@ -58,8 +58,8 @@ const renderRow = async (item: AssignmentList, role?: string) => (
         {role === "admin" ||
           (role === "teacher" && (
             <>
-              <FormModal table="assignment" type="update" data={item} />
-              <FormModal table="assignment" type="delete" id={item?.id} />
+              <FormContainer table="assignment" type="update" data={item} />
+              <FormContainer table="assignment" type="delete" id={item?.id} />
             </>
           ))}
       </div>
@@ -158,7 +158,7 @@ const AssignmentListPage = async ({
             </button>
             {role === "admin" ||
               (role === "teacher" && (
-                <FormModal table="assignment" type="create" />
+                <FormContainer table="assignment" type="create" />
               ))}
           </div>
         </div>

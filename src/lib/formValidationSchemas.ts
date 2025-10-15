@@ -109,3 +109,31 @@ export const parentSchema = z.object({
 });
 
 export type ParentInput = z.infer<typeof parentSchema>;
+
+export const assignmentSchema = z.object({
+  id: z.coerce.number().optional(),
+  title: z.string().min(1, { message: "Exam name is required" }),
+  startDate: z.coerce.date({ message: "Start date is required" }),
+  endDate: z.coerce.date({ message: "End date is required" }),
+  lessonId: z.coerce.number({ message: "Lesson id is required" }),
+});
+
+export type AssignmentInput = z.infer<typeof assignmentSchema>;
+
+export const lessonSchema = z.object({
+  id: z.coerce.number().optional(),
+  name: z.string().min(1, { message: "Lesson name is required" }),
+  day: z.enum(["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"], {
+    message: "Day is required",
+  }),
+  startTime: z.coerce.date({ message: "Start time is required" }),
+  endTime: z.coerce.date({ message: "End time is required" }),
+  subjectId: z.coerce.number().min(1, { message: "Subject id is required" }),
+  classId: z.coerce.number().min(1, { message: "Class is required" }),
+  teacherId: z.string().min(1, { message: "Teacher is required" }),
+  exams: z.array(z.string()),
+  assignments: z.array(z.string()),
+  // attendances: z.array(z.string()),
+});
+
+export type LessonInput = z.infer<typeof lessonSchema>;
