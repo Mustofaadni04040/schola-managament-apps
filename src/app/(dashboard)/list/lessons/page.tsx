@@ -5,6 +5,7 @@ import TableSearch from "@/components/TableSearch";
 import { getRole } from "@/lib/getRole";
 import prisma from "@/lib/prisma";
 import { ITEM_PER_PAGE } from "@/lib/settings";
+import { formatDateTime } from "@/lib/utils";
 import { Class, Lesson, Prisma, Subject, Teacher } from "@prisma/client";
 import Image from "next/image";
 
@@ -26,6 +27,14 @@ const columns = [
     accessor: "class",
   },
   {
+    header: "Day",
+    accessor: "day",
+  },
+  {
+    header: "Time",
+    accessor: "time",
+  },
+  {
     header: "Teacher",
     accessor: "teacher",
     className: "hidden md:table-cell",
@@ -42,6 +51,10 @@ const renderRow = (item: LessonList, role?: string) => (
   >
     <td className="flex items-center gap-4 p-4">{item?.subject?.name}</td>
     <td>{item?.class?.name ? item?.class?.name : "-"}</td>
+    <td>{item?.day}</td>
+    <td>{`${formatDateTime(item?.startTime)} - ${formatDateTime(
+      item?.endTime
+    )}`}</td>
     <td className="hidden md:table-cell">{item?.teacher?.name}</td>
     <td>
       <div className="flex items-center gap-2">

@@ -39,3 +39,13 @@ export const adjustScheduleToCurrentWeek = (
     };
   });
 };
+
+export const formatDateTime = (date: Date) => {
+  return new Date(date).toLocaleTimeString("en-GB", {
+    weekday: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZone: "Asia/Jakarta",
+  });
+};

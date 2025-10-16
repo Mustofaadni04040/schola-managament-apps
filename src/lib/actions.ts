@@ -704,7 +704,7 @@ export const createLesson = async (
       },
     });
 
-    // revalidatePath("/list/subjects");
+    // revalidatePath("/list/lessons");
     return { success: true, error: false };
   } catch (error) {
     console.log(error);
@@ -730,7 +730,7 @@ export const updateLesson = async (
       },
     });
 
-    // revalidatePath("/list/subjects");
+    // revalidatePath("/list/lessons");
     return { success: true, error: false };
   } catch (error) {
     console.log(error);
@@ -750,7 +750,7 @@ export const deleteLesson = async (
       },
     });
 
-    // revalidatePath("/list/subjects");
+    // revalidatePath("/list/lessons");
     return { success: true, error: false };
   } catch (error) {
     console.log(error);
