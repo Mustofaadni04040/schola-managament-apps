@@ -781,3 +781,27 @@ export const createEvent = async (
     return { success: false, error: true };
   }
 };
+
+export const updateEvent = async (
+  currentState: CurrentState,
+  data: EventInput
+) => {
+  try {
+    await prisma.event.update({
+      where: { id: data.id },
+      data: {
+        title: data.title,
+        description: data.description,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        classId: data.classId,
+      },
+    });
+
+    // revalidatePath("/list/lessons");
+    return { success: true, error: false };
+  } catch (error) {
+    console.log(error);
+    return { success: false, error: true };
+  }
+};
