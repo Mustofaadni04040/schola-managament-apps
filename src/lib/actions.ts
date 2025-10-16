@@ -711,3 +711,29 @@ export const createLesson = async (
     return { success: false, error: true };
   }
 };
+
+export const updateLesson = async (
+  currentState: CurrentState,
+  data: LessonInput
+) => {
+  try {
+    await prisma.lesson.update({
+      where: { id: data.id },
+      data: {
+        name: data.name,
+        day: data.day,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        subjectId: data.subjectId,
+        classId: data.classId,
+        teacherId: data.teacherId,
+      },
+    });
+
+    // revalidatePath("/list/subjects");
+    return { success: true, error: false };
+  } catch (error) {
+    console.log(error);
+    return { success: false, error: true };
+  }
+};
