@@ -3,6 +3,7 @@
 import {
   deleteAssignment,
   deleteClass,
+  deleteEvent,
   deleteExam,
   deleteLesson,
   deleteParent,
@@ -30,7 +31,7 @@ const deleteActionMap = {
   assignment: deleteAssignment,
   result: deleteSubject,
   attendance: deleteSubject,
-  event: deleteSubject,
+  event: deleteEvent,
   announcement: deleteSubject,
 };
 // USE LAZY LOADING
