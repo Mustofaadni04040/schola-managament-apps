@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import {
   AssignmentInput,
   ClassInput,
+  EventInput,
   ExamInput,
   LessonInput,
   ParentInput,
@@ -747,6 +748,29 @@ export const deleteLesson = async (
     await prisma.lesson.delete({
       where: {
         id: parseInt(id),
+      },
+    });
+
+    // revalidatePath("/list/lessons");
+    return { success: true, error: false };
+  } catch (error) {
+    console.log(error);
+    return { success: false, error: true };
+  }
+};
+
+export const createEvent = async (
+  currentState: CurrentState,
+  data: EventInput
+) => {
+  try {
+    await prisma.event.create({
+      data: {
+        title: data.title,
+        description: data.description,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        classId: data.classId,
       },
     });
 

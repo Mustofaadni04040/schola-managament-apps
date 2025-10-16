@@ -62,6 +62,9 @@ const AssignmentForm = dynamic(() => import("./forms/AssignmentForm"), {
 const LessonForm = dynamic(() => import("./forms/LessonForm"), {
   loading: () => <Spinner />,
 });
+const EventForm = dynamic(() => import("./forms/EventForm"), {
+  loading: () => <Spinner />,
+});
 
 const forms: {
   [key: string]: (
@@ -129,6 +132,14 @@ const forms: {
   ),
   lesson: (setOpen, type, data, relatedData) => (
     <LessonForm
+      setOpen={setOpen}
+      type={type}
+      data={data}
+      relatedData={relatedData}
+    />
+  ),
+  event: (setOpen, type, data, relatedData) => (
+    <EventForm
       setOpen={setOpen}
       type={type}
       data={data}
