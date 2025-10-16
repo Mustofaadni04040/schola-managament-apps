@@ -11,6 +11,7 @@ type InputFieldProps = {
   widthContainer?: string;
   hidden?: boolean;
   disabled?: boolean;
+  textArea?: boolean;
 };
 
 const InputField = ({
@@ -24,6 +25,7 @@ const InputField = ({
   widthContainer,
   hidden,
   disabled,
+  textArea,
 }: InputFieldProps) => {
   return (
     <div
@@ -32,16 +34,28 @@ const InputField = ({
       } ${hidden && "hidden"}`}
     >
       <label className="text-xs text-gray-500">{label}</label>
-      <input
-        type={type}
-        {...register(name)}
-        className={`ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full ${
-          disabled && "bg-gray-100 cursor-not-allowed"
-        }`}
-        {...inputProps}
-        defaultValue={defaultValue}
-        disabled={disabled}
-      />
+      {textArea ? (
+        <textarea
+          {...register(name)}
+          className={`ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full ${
+            disabled && "bg-gray-100 cursor-not-allowed"
+          }`}
+          {...inputProps}
+          defaultValue={defaultValue}
+          disabled={disabled}
+        />
+      ) : (
+        <input
+          type={type}
+          {...register(name)}
+          className={`ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full ${
+            disabled && "bg-gray-100 cursor-not-allowed"
+          }`}
+          {...inputProps}
+          defaultValue={defaultValue}
+          disabled={disabled}
+        />
+      )}
       {error?.message && (
         <p className="text-xs text-red-400">{error.message.toString()}</p>
       )}
