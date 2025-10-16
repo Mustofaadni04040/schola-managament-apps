@@ -5,6 +5,7 @@ import {
   AssignmentInput,
   ClassInput,
   ExamInput,
+  LessonInput,
   ParentInput,
   StudentInput,
   SubjectInput,
@@ -675,6 +676,31 @@ export const deleteAssignment = async (
         ...(role === "teacher"
           ? { lesson: { teacherId: currentUserId! } } // protect from deleting other teacher's lesson
           : {}),
+      },
+    });
+
+    // revalidatePath("/list/subjects");
+    return { success: true, error: false };
+  } catch (error) {
+    console.log(error);
+    return { success: false, error: true };
+  }
+};
+
+export const createLesson = async (
+  currentState: CurrentState,
+  data: LessonInput
+) => {
+  try {
+    await prisma.lesson.create({
+      data: {
+        name: data.name,
+        day: data.day,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        subjectId: data.subjectId,
+        classId: data.classId,
+        teacherId: data.teacherId,
       },
     });
 

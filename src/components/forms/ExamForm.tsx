@@ -75,7 +75,7 @@ const ExamForm = ({
           widthContainer="md:w-full"
         />
         <InputField
-          label="Start Date"
+          label="Start Time"
           name="startTime"
           defaultValue={data?.startTime?.toISOString().slice(0, 16)}
           register={register}
@@ -84,7 +84,7 @@ const ExamForm = ({
           type="datetime-local"
         />
         <InputField
-          label="End Date"
+          label="End Time"
           name="endTime"
           defaultValue={data?.endTime?.toISOString().slice(0, 16)}
           register={register}
