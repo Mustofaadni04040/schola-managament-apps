@@ -115,7 +115,7 @@ export const updateClass = async (
         name: data.name,
         capacity: data.capacity,
         gradeId: data.gradeId,
-        supervisorId: data.supervisorId || null,
+        supervisorId: data.supervisorId,
       },
     });
 
