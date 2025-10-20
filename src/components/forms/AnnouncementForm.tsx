@@ -13,7 +13,12 @@ import { Dispatch, SetStateAction, useEffect } from "react";
 import { useFormState } from "react-dom";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { createEvent, updateEvent } from "@/lib/actions";
+import {
+  createAnnouncement,
+  createEvent,
+  updateAnnouncement,
+  updateEvent,
+} from "@/lib/actions";
 
 const AnnouncementForm = ({
   type,
@@ -35,7 +40,7 @@ const AnnouncementForm = ({
   });
   //   after react 19 it'l be useactionstate
   const [state, formAction] = useFormState(
-    type === "create" ? createEvent : updateEvent,
+    type === "create" ? createAnnouncement : updateAnnouncement,
     {
       success: false,
       error: false,
