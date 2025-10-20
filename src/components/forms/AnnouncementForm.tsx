@@ -6,8 +6,6 @@ import InputField from "../InputField";
 import {
   AnnouncementInput,
   announcementSchema,
-  EventInput,
-  eventSchema,
 } from "@/lib/formValidationSchemas";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { useFormState } from "react-dom";
@@ -102,7 +100,7 @@ const AnnouncementForm = ({
           register={register}
           error={errors?.date}
           widthContainer="md:w-full"
-          type="datetime-local"
+          type="date"
         />
         {data && (
           <InputField
