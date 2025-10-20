@@ -848,3 +848,26 @@ export const createAnnouncement = async (
     return { success: false, error: true };
   }
 };
+
+export const updateAnnouncement = async (
+  currentState: CurrentState,
+  data: AnnouncementInput
+) => {
+  try {
+    await prisma.announcement.update({
+      where: { id: data.id },
+      data: {
+        title: data.title,
+        description: data.description,
+        date: data.date,
+        classId: data.classId,
+      },
+    });
+
+    // revalidatePath("/list/lessons");
+    return { success: true, error: false };
+  } catch (error) {
+    console.log(error);
+    return { success: false, error: true };
+  }
+};
