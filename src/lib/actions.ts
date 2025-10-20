@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import {
+  AnnouncementInput,
   AssignmentInput,
   ClassInput,
   EventInput,
@@ -815,6 +816,28 @@ export const deleteEvent = async (
     await prisma.event.delete({
       where: {
         id: parseInt(id),
+      },
+    });
+
+    // revalidatePath("/list/lessons");
+    return { success: true, error: false };
+  } catch (error) {
+    console.log(error);
+    return { success: false, error: true };
+  }
+};
+
+export const createAnnouncement = async (
+  currentState: CurrentState,
+  data: AnnouncementInput
+) => {
+  try {
+    await prisma.announcement.create({
+      data: {
+        title: data.title,
+        description: data.description,
+        date: data.date,
+        classId: data.classId,
       },
     });
 
