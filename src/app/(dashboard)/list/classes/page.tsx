@@ -1,5 +1,4 @@
 import FormContainer from "@/components/FormContainer";
-import FormModal from "@/components/FormModal";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
@@ -92,6 +91,8 @@ const ClassListPage = async ({
     }),
     prisma.class.count({ where: query }),
   ]);
+
+  console.log(data);
 
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0 overflow-x-auto">

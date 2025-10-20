@@ -68,7 +68,6 @@ async function main() {
         bloodType: "A+",
         sex: i % 2 === 0 ? UserSex.MALE : UserSex.FEMALE,
         subjects: { connect: [{ id: (i % 10) + 1 }] },
-        classes: { connect: [{ id: (i % 6) + 1 }] },
         birthday: new Date(
           new Date().setFullYear(new Date().getFullYear() - 30)
         ),

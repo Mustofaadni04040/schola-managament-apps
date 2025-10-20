@@ -179,6 +179,11 @@ export const createTeacher = async (
             id: parseInt(id),
           })),
         },
+        classes: {
+          connect: data.classes?.map((id: string) => ({
+            id: parseInt(id),
+          })),
+        },
       },
     });
 
@@ -197,6 +202,7 @@ export const updateTeacher = async (
   if (!data.id) {
     return { success: false, error: true };
   }
+  console.log(data, "data");
 
   try {
     const clerk = await clerkClient();
@@ -223,6 +229,11 @@ export const updateTeacher = async (
         birthday: data.birthday,
         subjects: {
           set: data.subjects?.map((id: string) => ({
+            id: parseInt(id),
+          })),
+        },
+        classes: {
+          set: data.classes?.map((id: string) => ({
             id: parseInt(id),
           })),
         },

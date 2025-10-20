@@ -42,6 +42,7 @@ export const teacherSchema = z.object({
   sex: z.enum(["MALE", "FEMALE"], { message: "Sex is required!" }),
   img: z.string().optional(),
   subjects: z.array(z.string()).optional(),
+  classes: z.array(z.string()).optional(),
 });
 
 export type TeacherInput = z.infer<typeof teacherSchema>;

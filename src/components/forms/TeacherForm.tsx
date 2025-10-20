@@ -59,7 +59,7 @@ const TeacherForm = ({
     }
   }, [state, type, router, setOpen]);
 
-  const { subjects } = relatedData;
+  const { subjects, classes } = relatedData;
 
   return (
     <form
@@ -226,6 +226,26 @@ const TeacherForm = ({
           {errors.subjects?.message && (
             <p className="text-xs text-red-400">
               {errors.subjects.message.toString()}
+            </p>
+          )}
+        </div>
+        <div className="flex flex-col gap-2 w-full md:w-1/4">
+          <label className="text-xs text-gray-500">Classes</label>
+          <select
+            multiple
+            className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
+            {...register("classes")}
+            defaultValue={data?.classes}
+          >
+            {classes?.map((classItem: { id: number; name: string }) => (
+              <option value={classItem.id} key={classItem.id} className="p-2">
+                {classItem.name}
+              </option>
+            ))}
+          </select>
+          {errors.classes?.message && (
+            <p className="text-xs text-red-400">
+              {errors.classes.message.toString()}
             </p>
           )}
         </div>
