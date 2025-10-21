@@ -26,8 +26,6 @@ const FormContainer = async ({ table, type, data, id }: FormContainerProps) => {
   let relatedData = {};
   const { role, currentUserId } = await getRole();
 
-  console.log(data, "form");
-
   if (type !== "delete") {
     switch (table) {
       case "subject":

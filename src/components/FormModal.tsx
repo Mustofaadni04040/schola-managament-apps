@@ -177,15 +177,12 @@ const FormModal = ({
       : "bg-lamaPurple";
 
   const [open, setOpen] = useState(false);
-  console.log("data form", data);
-
   const Form = () => {
     const [state, formAction] = useFormState(deleteActionMap[table], {
       success: false,
       error: false,
     });
     const router = useRouter();
-    console.log(state);
 
     useEffect(() => {
       if (state?.success) {

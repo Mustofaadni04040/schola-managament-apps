@@ -44,7 +44,7 @@ const TeacherForm = ({
 
   const onSubmit = handleSubmit((data) => {
     console.log("data", data);
-    formAction({ ...data, img: image });
+    formAction({ ...data, img: image || data.img });
   });
 
   useEffect(() => {
@@ -61,7 +61,6 @@ const TeacherForm = ({
 
   const { subjects, classes } = relatedData;
 
-  console.log("classes", classes);
   console.log("errors", errors.teachingClasses);
   console.log("state", state?.error);
   console.log("data", data);
@@ -125,6 +124,7 @@ const TeacherForm = ({
           width={100}
           height={100}
           className="w-auto h-auto"
+          defaultValue={data?.img}
         />
       )}
       <CldUploadWidget

@@ -5,7 +5,7 @@ import TableSearch from "@/components/TableSearch";
 import { getRole } from "@/lib/getRole";
 import prisma from "@/lib/prisma";
 import { ITEM_PER_PAGE } from "@/lib/settings";
-import { Class, Prisma, Subject, Teacher } from "@prisma/client";
+import { Prisma, Subject, Teacher } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -129,8 +129,6 @@ const TeacherListPage = async ({
     }),
     prisma.teacher.count({ where: query }),
   ]);
-
-  console.log("teacher", data);
 
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0 overflow-x-auto">
