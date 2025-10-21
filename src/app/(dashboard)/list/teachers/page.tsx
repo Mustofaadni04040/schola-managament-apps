@@ -11,7 +11,7 @@ import Link from "next/link";
 
 type TeacherList = Teacher & {
   subjects: Subject[];
-} & { classes: Class[] };
+} & { teachingClasses: Teacher[] };
 
 const columns = [
   {
@@ -72,7 +72,7 @@ const renderRow = (item: TeacherList, role?: string) => (
       {item?.subjects?.map((s) => s.name).join(",")}
     </td>
     <td className="hidden md:table-cell">
-      {item?.classes?.map((c) => c.name).join(",")}
+      {item?.teachingClasses?.map((c) => c.name).join(",")}
     </td>
     <td className="hidden md:table-cell">{item?.phone}</td>
     <td className="hidden md:table-cell">{item?.address}</td>
@@ -123,12 +123,14 @@ const TeacherListPage = async ({
   const [data, count] = await prisma.$transaction([
     prisma.teacher.findMany({
       where: query,
-      include: { subjects: true, classes: true },
+      include: { subjects: true, teachingClasses: true },
       take: ITEM_PER_PAGE,
       skip: ITEM_PER_PAGE * (p - 1),
     }),
     prisma.teacher.count({ where: query }),
   ]);
+
+  console.log("teacher", data);
 
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0 overflow-x-auto">

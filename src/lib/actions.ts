@@ -93,7 +93,17 @@ export const createClass = async (
 ) => {
   try {
     await prisma.class.create({
-      data,
+      data: {
+        name: data.name,
+        capacity: data.capacity,
+        gradeId: data.gradeId,
+        supervisorId: data.supervisorId,
+        teachers: {
+          connect: data.teachers?.map((id: string) => ({
+            id: id,
+          })),
+        },
+      },
     });
 
     // revalidatePath("/list/class");
@@ -116,6 +126,11 @@ export const updateClass = async (
         capacity: data.capacity,
         gradeId: data.gradeId,
         supervisorId: data.supervisorId,
+        teachers: {
+          set: data.teachers?.map((id: string) => ({
+            id: id,
+          })),
+        },
       },
     });
 
@@ -179,8 +194,8 @@ export const createTeacher = async (
             id: parseInt(id),
           })),
         },
-        classes: {
-          connect: data.classes?.map((id: string) => ({
+        teachingClasses: {
+          connect: data.teachingClasses?.map((id: string) => ({
             id: parseInt(id),
           })),
         },
@@ -190,8 +205,8 @@ export const createTeacher = async (
     // revalidatePath("/list/teachers");
     return { success: true, error: false };
   } catch (error: string | any) {
-    console.log("error", error);
-    return { success: false, error: true && error?.errors[0]?.message };
+    console.error("Create teacher error:", JSON.stringify(error, null, 2));
+    return { success: false, error: error?.message || "Unknown error" };
   }
 };
 
@@ -232,8 +247,8 @@ export const updateTeacher = async (
             id: parseInt(id),
           })),
         },
-        classes: {
-          set: data.classes?.map((id: string) => ({
+        teachingClasses: {
+          set: data.teachingClasses?.map((id: string) => ({
             id: parseInt(id),
           })),
         },

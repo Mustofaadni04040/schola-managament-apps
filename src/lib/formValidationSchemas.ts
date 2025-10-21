@@ -14,6 +14,7 @@ export const classSchema = z.object({
   capacity: z.coerce.number().min(1, { message: "Capacity name is required" }),
   gradeId: z.coerce.number().min(1, { message: "Grade name is required" }),
   supervisorId: z.coerce.string().optional(),
+  teachers: z.array(z.string()).optional(),
 });
 
 export type ClassInput = z.infer<typeof classSchema>;
@@ -42,7 +43,6 @@ export const teacherSchema = z.object({
   sex: z.enum(["MALE", "FEMALE"], { message: "Sex is required!" }),
   img: z.string().optional(),
   subjects: z.array(z.string()).optional(),
-  supervisedClasses: z.array(z.string()).optional(),
   teachingClasses: z.array(z.string()).optional(),
 });
 

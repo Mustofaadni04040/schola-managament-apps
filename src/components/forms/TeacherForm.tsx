@@ -61,6 +61,11 @@ const TeacherForm = ({
 
   const { subjects, classes } = relatedData;
 
+  console.log("classes", classes);
+  console.log("errors", errors.teachingClasses);
+  console.log("state", state?.error);
+  console.log("data", data);
+
   return (
     <form
       className="flex flex-col gap-8 overflow-y-scroll max-h-[90vh] pr-2 no-scrollbar"
@@ -215,7 +220,9 @@ const TeacherForm = ({
             multiple
             className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
             {...register("subjects")}
-            defaultValue={data?.subjects}
+            defaultValue={data?.subjects?.map(
+              (t: { id: number; name: string }) => t.id
+            )}
           >
             {subjects?.map((subject: { id: number; name: string }) => (
               <option value={subject.id} key={subject.id} className="p-2">
@@ -234,8 +241,10 @@ const TeacherForm = ({
           <select
             multiple
             className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
-            {...register("classes")}
-            defaultValue={data?.classes}
+            {...register("teachingClasses")}
+            defaultValue={data?.teachingClasses?.map(
+              (t: { id: number }) => t.id
+            )}
           >
             {classes?.map((classItem: { id: number; name: string }) => (
               <option value={classItem.id} key={classItem.id} className="p-2">
@@ -243,9 +252,9 @@ const TeacherForm = ({
               </option>
             ))}
           </select>
-          {errors.classes?.message && (
+          {errors.teachingClasses?.message && (
             <p className="text-xs text-red-400">
-              {errors.classes.message.toString()}
+              {errors.teachingClasses.message.toString()}
             </p>
           )}
         </div>

@@ -12,7 +12,7 @@ import { notFound } from "next/navigation";
 type TeacherWithCount = Teacher & {
   _count: {
     subjects: number;
-    classes: number;
+    teachingClasses: number;
     lessons: number;
   };
 };
@@ -25,10 +25,12 @@ const SingleTeacherPage = async ({
   const teacher: TeacherWithCount | null = await prisma.teacher.findUnique({
     where: { id: id },
     include: {
+      subjects: true,
+      teachingClasses: true,
       _count: {
         select: {
           subjects: true,
-          classes: true,
+          teachingClasses: true,
           lessons: true,
         },
       },
@@ -146,7 +148,7 @@ const SingleTeacherPage = async ({
               />
               <div className="">
                 <h1 className="text-xl font-semibold">
-                  {teacher?._count.classes}
+                  {teacher?._count.teachingClasses}
                 </h1>
                 <span className="text-sm text-gray-400">Classes</span>
               </div>

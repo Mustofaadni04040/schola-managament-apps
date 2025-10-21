@@ -177,6 +177,7 @@ const FormModal = ({
       : "bg-lamaPurple";
 
   const [open, setOpen] = useState(false);
+  console.log("data form", data);
 
   const Form = () => {
     const [state, formAction] = useFormState(deleteActionMap[table], {
@@ -184,9 +185,10 @@ const FormModal = ({
       error: false,
     });
     const router = useRouter();
+    console.log(state);
 
     useEffect(() => {
-      if (state.success) {
+      if (state?.success) {
         toast.success(`${table} has been deleted!`);
         setOpen(false);
         router.refresh();
