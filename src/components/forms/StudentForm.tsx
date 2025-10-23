@@ -113,15 +113,16 @@ const StudentForm = ({
       <span className="text-xs text-gray-400 font-medium">
         Personal Information
       </span>
-      {image && (
-        <Image
-          src={image}
-          alt="teacher profile image"
-          width={100}
-          height={100}
-          className="w-auto h-auto"
-        />
-      )}
+      {image ||
+        (data?.img && (
+          <Image
+            src={image || data?.img}
+            alt="teacher profile image"
+            width={100}
+            height={100}
+            className="w-auto h-auto"
+          />
+        ))}
       <CldUploadWidget
         uploadPreset="school"
         onSuccess={(result) => {
