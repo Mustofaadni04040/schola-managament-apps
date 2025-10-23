@@ -217,11 +217,9 @@ export const updateTeacher = async (
   if (!data.id) {
     return { success: false, error: true };
   }
-  console.log(data, "data");
-
   try {
     const clerk = await clerkClient();
-    const user = await clerk.users.updateUser(data.id, {
+    await clerk.users.updateUser(data.id, {
       username: data.username,
       password: data.password,
       firstName: data.name,

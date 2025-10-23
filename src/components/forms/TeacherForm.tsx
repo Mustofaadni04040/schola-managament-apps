@@ -44,7 +44,7 @@ const TeacherForm = ({
 
   const onSubmit = handleSubmit((data) => {
     console.log("data", data);
-    formAction({ ...data, img: image || data.img });
+    formAction({ ...data, img: image || data?.img });
   });
 
   useEffect(() => {
@@ -117,16 +117,16 @@ const TeacherForm = ({
       <span className="text-xs text-gray-400 font-medium">
         Personal Information
       </span>
-      {image && (
-        <Image
-          src={image}
-          alt="teacher profile image"
-          width={100}
-          height={100}
-          className="w-auto h-auto"
-          defaultValue={data?.img}
-        />
-      )}
+      {image ||
+        (data?.img && (
+          <Image
+            src={image ? image : data?.img}
+            alt="teacher profile image"
+            width={100}
+            height={100}
+            className="w-auto h-auto"
+          />
+        ))}
       <CldUploadWidget
         uploadPreset="school"
         onSuccess={(result) => {
@@ -236,28 +236,30 @@ const TeacherForm = ({
             </p>
           )}
         </div>
-        <div className="flex flex-col gap-2 w-full md:w-1/4">
-          <label className="text-xs text-gray-500">Classes</label>
-          <select
-            multiple
-            className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
-            {...register("teachingClasses")}
-            defaultValue={data?.teachingClasses?.map(
-              (t: { id: number }) => t.id
+        {type === "update" && (
+          <div className="flex flex-col gap-2 w-full md:w-1/4">
+            <label className="text-xs text-gray-500">Classes</label>
+            <select
+              multiple
+              className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
+              {...register("teachingClasses")}
+              defaultValue={data?.teachingClasses?.map(
+                (t: { id: number }) => t.id
+              )}
+            >
+              {classes?.map((classItem: { id: number; name: string }) => (
+                <option value={classItem.id} key={classItem.id} className="p-2">
+                  {classItem.name}
+                </option>
+              ))}
+            </select>
+            {errors.teachingClasses?.message && (
+              <p className="text-xs text-red-400">
+                {errors.teachingClasses.message.toString()}
+              </p>
             )}
-          >
-            {classes?.map((classItem: { id: number; name: string }) => (
-              <option value={classItem.id} key={classItem.id} className="p-2">
-                {classItem.name}
-              </option>
-            ))}
-          </select>
-          {errors.teachingClasses?.message && (
-            <p className="text-xs text-red-400">
-              {errors.teachingClasses.message.toString()}
-            </p>
-          )}
-        </div>
+          </div>
+        )}
       </div>
       {state?.error && <p className="text-xs text-red-400">{state.error}</p>}
       <button className="bg-[#FEBA17] text-white p-2 rounded-md">
