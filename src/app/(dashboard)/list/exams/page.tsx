@@ -56,13 +56,12 @@ const renderRow = (item: ExamList, role?: string) => (
     </td>
     <td>
       <div className="flex items-center gap-2">
-        {role === "admin" ||
-          (role === "teacher" && (
-            <>
-              <FormContainer table="exam" type="update" data={item} />
-              <FormContainer table="exam" type="delete" id={item?.id} />
-            </>
-          ))}
+        {role === "admin" || role === "teacher" ? (
+          <>
+            <FormContainer table="exam" type="update" data={item} />
+            <FormContainer table="exam" type="delete" id={item?.id} />
+          </>
+        ) : null}
       </div>
     </td>
   </tr>
@@ -132,6 +131,7 @@ const ExamListPage = async ({
     }),
     prisma.exam.count({ where: query }),
   ]);
+  console.log(role);
 
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0 overflow-x-auto">
@@ -147,10 +147,9 @@ const ExamListPage = async ({
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <Image src="/sort.png" alt="" width={14} height={14} />
             </button>
-            {role === "admin" ||
-              (role === "teacher" && (
-                <FormContainer table="exam" type="create" />
-              ))}
+            {role === "admin" || role === "teacher" ? (
+              <FormContainer table="exam" type="create" />
+            ) : null}
           </div>
         </div>
       </div>

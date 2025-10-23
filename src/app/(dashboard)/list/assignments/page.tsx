@@ -60,13 +60,12 @@ const renderRow = async (item: AssignmentList, role?: string) => (
     </td>
     <td>
       <div className="flex items-center gap-2">
-        {role === "admin" ||
-          (role === "teacher" && (
-            <>
-              <FormContainer table="assignment" type="update" data={item} />
-              <FormContainer table="assignment" type="delete" id={item?.id} />
-            </>
-          ))}
+        {role === "admin" || role === "teacher" ? (
+          <>
+            <FormContainer table="assignment" type="update" data={item} />
+            <FormContainer table="assignment" type="delete" id={item?.id} />
+          </>
+        ) : null}
       </div>
     </td>
   </tr>
@@ -145,6 +144,8 @@ const AssignmentListPage = async ({
     prisma.assignment.count({ where: query }),
   ]);
 
+  console.log(role);
+
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0 overflow-x-auto">
       {/* TOP */}
@@ -161,10 +162,9 @@ const AssignmentListPage = async ({
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <Image src="/sort.png" alt="" width={14} height={14} />
             </button>
-            {role === "admin" ||
-              (role === "teacher" && (
-                <FormContainer table="assignment" type="create" />
-              ))}
+            {role === "admin" || role === "teacher" ? (
+              <FormContainer table="assignment" type="create" />
+            ) : null}
           </div>
         </div>
       </div>

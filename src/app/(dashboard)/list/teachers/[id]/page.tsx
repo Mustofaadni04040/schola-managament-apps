@@ -55,7 +55,7 @@ const SingleTeacherPage = async ({
                 alt="teacher profile image"
                 width={144}
                 height={144}
-                className="w-36 h-36 rounded-full object-cover"
+                className="w-32 h-32 rounded-full object-cover"
               />
             </div>
             <div className="w-2/3 flex flex-col justify-between gap-4">
