@@ -33,7 +33,7 @@ export default function LoginPage() {
               alt=""
               width={100}
               height={100}
-              className="mx-auto"
+              className="mx-auto w-auto h-auto"
               priority
             />
           </header>

@@ -67,7 +67,7 @@ const renderRow = (item: ResultList, role?: string) => (
     </td>
     <td>
       <div className="flex items-center gap-2">
-        {role === "admin" || role === "teacher" ? (
+        {role === "teacher" ? (
           <>
             <FormContainer table="result" type="update" data={item} />
             <FormContainer table="result" type="delete" id={item.id} />
@@ -160,7 +160,6 @@ const ResultListPage = async ({
 
   const data = response.map((result) => {
     const assessment = result.exam || result.assignment;
-
     if (!assessment) return null;
 
     const isExam = "startTime" in assessment;
@@ -173,6 +172,9 @@ const ResultListPage = async ({
       score: result.score,
       className: assessment.lesson.class.name,
       startTime: isExam ? assessment.startTime : assessment.startDate,
+      examId: result.examId,
+      assignmentId: result.assignmentId,
+      studentId: result.studentId,
     };
   });
 
@@ -190,7 +192,7 @@ const ResultListPage = async ({
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <Image src="/sort.png" alt="" width={14} height={14} />
             </button>
-            {role === "admin" || role === "teacher" ? (
+            {role === "teacher" ? (
               <FormContainer table="result" type="create" />
             ) : null}
           </div>
