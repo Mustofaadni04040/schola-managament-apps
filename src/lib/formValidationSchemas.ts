@@ -157,3 +157,13 @@ export const announcementSchema = z.object({
 });
 
 export type AnnouncementInput = z.infer<typeof announcementSchema>;
+
+export const resultSchema = z.object({
+  id: z.coerce.number().optional(),
+  score: z.coerce.number().min(1, { message: "Score result is required" }),
+  examId: z.coerce.number().optional(),
+  assignmentId: z.coerce.number().optional(),
+  studentId: z.string().min(1, { message: "Student is required" }),
+});
+
+export type ResultInput = z.infer<typeof resultSchema>;
