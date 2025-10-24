@@ -3,8 +3,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import InputField from "../InputField";
-import { ExamInput, examSchema } from "@/lib/formValidationSchemas";
-import { createExam, updateExam } from "@/lib/actions";
+import { ResultInput, resultSchema } from "@/lib/formValidationSchemas";
+import { createResult, updateResult } from "@/lib/actions";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { useFormState } from "react-dom";
 import { toast } from "react-toastify";
@@ -25,12 +25,12 @@ const ResultForm = ({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ExamInput>({
-    resolver: zodResolver(examSchema),
+  } = useForm<ResultInput>({
+    resolver: zodResolver(resultSchema),
   });
   //   after react 19 it'l be useactionstate
   const [state, formAction] = useFormState(
-    type === "create" ? createExam : updateExam,
+    type === "create" ? createResult : updateResult,
     {
       success: false,
       error: false,
@@ -55,7 +55,7 @@ const ResultForm = ({
     }
   }, [state, type, router, setOpen]);
 
-  const { lessons } = relatedData;
+  const { exams, assignments, students } = relatedData;
 
   return (
     <form

@@ -9,6 +9,7 @@ import {
   ExamInput,
   LessonInput,
   ParentInput,
+  ResultInput,
   StudentInput,
   SubjectInput,
   TeacherInput,
