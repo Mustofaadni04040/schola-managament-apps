@@ -916,3 +916,25 @@ export const deleteAnnouncement = async (
     return { success: false, error: true };
   }
 };
+
+export const createResult = async (
+  currentState: CurrentState,
+  data: ResultInput
+) => {
+  try {
+    await prisma.result.create({
+      data: {
+        score: data.score,
+        examId: data.examId,
+        assignmentId: data.assignmentId,
+        studentId: data.studentId,
+      },
+    });
+
+    // revalidatePath("/list/students");
+    return { success: true, error: false };
+  } catch (error: string | any) {
+    console.log("error", error);
+    return { success: false, error: true && error?.errors[0]?.message };
+  }
+};

@@ -49,7 +49,7 @@ const ClassForm = ({
   });
 
   useEffect(() => {
-    if (state.success) {
+    if (state?.success) {
       toast.success(
         `Class has been ${
           type === "create" ? "created" : "updated"
@@ -131,9 +131,9 @@ const ClassForm = ({
               </option>
             ))}
           </select>
-          {errors.gradeId?.message && (
+          {errors?.gradeId?.message && (
             <p className="text-xs text-red-400">
-              {errors.gradeId.message.toString()}
+              {errors?.gradeId.message.toString()}
             </p>
           )}
         </div>

@@ -44,7 +44,7 @@ const EventForm = ({
   });
 
   useEffect(() => {
-    if (state.success) {
+    if (state?.success) {
       toast.success(
         `Event has been ${
           type === "create" ? "created" : "updated"
@@ -126,7 +126,7 @@ const EventForm = ({
               </option>
             ))}
           </select>
-          {errors.classId?.message && (
+          {errors?.classId?.message && (
             <p className="text-xs text-red-400">
               {errors.classId.message.toString()}
             </p>

@@ -44,7 +44,7 @@ const ExamForm = ({
   });
 
   useEffect(() => {
-    if (state.success) {
+    if (state?.success) {
       toast.success(
         `Exam has been ${
           type === "create" ? "created" : "updated"
@@ -117,7 +117,7 @@ const ExamForm = ({
               </option>
             ))}
           </select>
-          {errors.lessonId?.message && (
+          {errors?.lessonId?.message && (
             <p className="text-xs text-red-400">
               {errors.lessonId.message.toString()}
             </p>
@@ -125,7 +125,7 @@ const ExamForm = ({
         </div>
       </div>
 
-      {state.error && (
+      {state?.error && (
         <span className="text-red-500">Something went wrong</span>
       )}
       <button className="bg-[#FEBA17] text-white p-2 rounded-md">

@@ -61,10 +61,6 @@ const TeacherForm = ({
 
   const { subjects, classes } = relatedData;
 
-  console.log("errors", errors.teachingClasses);
-  console.log("state", state?.error);
-  console.log("data", data);
-
   return (
     <form
       className="flex flex-col gap-8 overflow-y-scroll max-h-[90vh] pr-2 no-scrollbar"

@@ -47,7 +47,7 @@ const ResultForm = ({
   });
 
   useEffect(() => {
-    if (state.success) {
+    if (state?.success) {
       toast.success(
         `Result has been ${
           type === "create" ? "created" : "updated"
@@ -232,7 +232,7 @@ const ResultForm = ({
         </div>
       </div>
 
-      {state.error && (
+      {state?.error && (
         <span className="text-red-500">Something went wrong</span>
       )}
       <button className="bg-[#FEBA17] text-white p-2 rounded-md">

@@ -44,7 +44,7 @@ const SubjectForm = ({
   });
 
   useEffect(() => {
-    if (state.success) {
+    if (state?.success) {
       toast.success(
         `Subject has been ${
           type === "create" ? "created" : "updated"
@@ -100,7 +100,7 @@ const SubjectForm = ({
               </option>
             ))}
           </select>
-          {errors.teachers?.message && (
+          {errors?.teachers?.message && (
             <p className="text-xs text-red-400">
               {errors.teachers.message.toString()}
             </p>
@@ -108,7 +108,7 @@ const SubjectForm = ({
         </div>
       </div>
 
-      {state.error && (
+      {state?.error && (
         <span className="text-red-500">Something went wrong</span>
       )}
       <button className="bg-[#FEBA17] text-white p-2 rounded-md">

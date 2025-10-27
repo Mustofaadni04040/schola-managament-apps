@@ -45,7 +45,7 @@ const LessonForm = ({
   });
 
   useEffect(() => {
-    if (state.success) {
+    if (state?.success) {
       toast.success(
         `Lesson has been ${
           type === "create" ? "created" : "updated"
@@ -170,7 +170,7 @@ const LessonForm = ({
               </option>
             ))}
           </select>
-          {errors.classId?.message && (
+          {errors?.classId?.message && (
             <p className="text-xs text-red-400">
               {errors.classId.message.toString()}
             </p>
@@ -178,7 +178,7 @@ const LessonForm = ({
         </div>
       </div>
 
-      {state.error && (
+      {state?.error && (
         <span className="text-red-500">Something went wrong</span>
       )}
       <button className="bg-[#FEBA17] text-white p-2 rounded-md">

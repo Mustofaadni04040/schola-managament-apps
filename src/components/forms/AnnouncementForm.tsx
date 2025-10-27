@@ -52,7 +52,7 @@ const AnnouncementForm = ({
   });
 
   useEffect(() => {
-    if (state.success) {
+    if (state?.success) {
       toast.success(
         `Announcement has been ${
           type === "create" ? "created" : "updated"
