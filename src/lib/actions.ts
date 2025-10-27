@@ -938,3 +938,30 @@ export const createResult = async (
     return { success: false, error: true && error?.errors[0]?.message };
   }
 };
+
+export const updateResult = async (
+  currentState: CurrentState,
+  data: ResultInput
+) => {
+  if (!data.id) {
+    return { success: false, error: true };
+  }
+
+  try {
+    await prisma.result.update({
+      where: { id: data.id },
+      data: {
+        score: data.score,
+        examId: data.examId,
+        assignmentId: data.assignmentId,
+        studentId: data.studentId,
+      },
+    });
+
+    // revalidatePath("/list/students");
+    return { success: true, error: false };
+  } catch (error) {
+    console.log(error);
+    return { success: false, error: true };
+  }
+};
