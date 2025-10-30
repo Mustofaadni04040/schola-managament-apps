@@ -55,7 +55,7 @@ const ParentForm = ({
     }
   }, [state, type, router, setOpen]);
 
-  const { students } = relatedData || {};
+  const { students } = relatedData;
 
   console.log(students);
 
