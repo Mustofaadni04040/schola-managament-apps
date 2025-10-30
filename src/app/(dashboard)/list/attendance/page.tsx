@@ -10,9 +10,7 @@ import Image from "next/image";
 
 type AttendanceList = Attendance & {
   lesson: {
-    subject: { name: string };
-    class: { name: string };
-    teacher: { name: string };
+    name: string;
   };
 };
 
@@ -48,9 +46,7 @@ const renderRow = async (item: AttendanceList, role?: string) => (
     </td>
     <td>{item?.present === true ? "Present" : "Absent"}</td>
     <td>{item?.studentId}</td>
-    <td className="hidden md:table-cell">
-      {item?.lesson?.subject?.name} - {item?.lesson?.class?.name}
-    </td>
+    <td className="hidden md:table-cell">{item?.lesson?.name}</td>
     <td>
       <div className="flex items-center gap-2">
         {role === "student" || role === "teacher" ? (
@@ -120,9 +116,7 @@ const AttendanceListPage = async ({
       include: {
         lesson: {
           select: {
-            subject: { select: { name: true } },
-            class: { select: { name: true } },
-            teacher: { select: { name: true } },
+            name: true,
           },
         },
       },
@@ -131,6 +125,8 @@ const AttendanceListPage = async ({
     }),
     prisma.attendance.count({ where: query }),
   ]);
+
+  console.log(data, "data attend");
 
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0 overflow-x-auto">

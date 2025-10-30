@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import {
   AnnouncementInput,
   AssignmentInput,
+  AttendanceInput,
   ClassInput,
   EventInput,
   ExamInput,
@@ -980,6 +981,28 @@ export const deleteResult = async (
     });
 
     // revalidatePath("/list/students");
+    return { success: true, error: false };
+  } catch (error) {
+    console.log(error);
+    return { success: false, error: true };
+  }
+};
+
+export const createAttendance = async (
+  currentState: CurrentState,
+  data: AttendanceInput
+) => {
+  try {
+    await prisma.attendance.create({
+      data: {
+        date: data.date,
+        status: data.status,
+        studentId: data.studentId,
+        lessonId: data.lessonId,
+        present: data.present,
+      },
+    });
+    // revalidatePath("/list/subjects");
     return { success: true, error: false };
   } catch (error) {
     console.log(error);
