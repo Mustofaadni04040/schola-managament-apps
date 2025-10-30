@@ -1009,3 +1009,27 @@ export const createAttendance = async (
     return { success: false, error: true };
   }
 };
+
+export const updateAttendance = async (
+  currentState: CurrentState,
+  data: AttendanceInput
+) => {
+  try {
+    await prisma.attendance.update({
+      where: { id: data.id },
+      data: {
+        date: data.date,
+        status: data.status,
+        studentId: data.studentId,
+        lessonId: data.lessonId,
+        present: data.present,
+      },
+    });
+
+    // revalidatePath("/list/subjects");
+    return { success: true, error: false };
+  } catch (error) {
+    console.log(error);
+    return { success: false, error: true };
+  }
+};
