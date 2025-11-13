@@ -126,8 +126,6 @@ const AttendanceListPage = async ({
     prisma.attendance.count({ where: query }),
   ]);
 
-  console.log(data, "data attend");
-
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0 overflow-x-auto">
       {/* TOP */}
@@ -144,9 +142,9 @@ const AttendanceListPage = async ({
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <Image src="/sort.png" alt="" width={14} height={14} />
             </button>
-            {role === "teacher" || role === "student" ? (
+            {role === "student" && (
               <FormContainer table="attendance" type="create" />
-            ) : null}
+            )}
           </div>
         </div>
       </div>

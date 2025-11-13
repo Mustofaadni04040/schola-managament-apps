@@ -10,7 +10,7 @@ const matchers = Object.keys(routeAccessMap).map((router) => ({
 export default clerkMiddleware(async (auth, req) => {
   const { sessionClaims } = await auth();
 
-  const role = (sessionClaims?.metadata as { role?: string })?.role as string;
+  const role = (sessionClaims?.metadata as { role?: string })?.role || "admin";
 
   for (const { matcher, allowedRoles } of matchers) {
     if (matcher(req) && !allowedRoles.includes(role)) {
