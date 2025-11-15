@@ -13,8 +13,13 @@ export default clerkMiddleware(async (auth, req) => {
   const role = (sessionClaims?.metadata as { role?: string })?.role || "admin";
 
   for (const { matcher, allowedRoles } of matchers) {
-    if (matcher(req) && !allowedRoles.includes(role)) {
-      return NextResponse.redirect(new URL(`/${role}`, req.url));
+    const isMatched = matcher(req);
+    if (isMatched) {
+      await auth.protect();
+
+      if (!allowedRoles.includes(role)) {
+        return NextResponse.redirect(new URL(`/${role}`, req.url));
+      }
     }
   }
 });
